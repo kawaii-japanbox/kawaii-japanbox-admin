@@ -1,4 +1,3 @@
-// Install Tailwind CSS before starting
 import React from "react";
 
 function Dashboard() {

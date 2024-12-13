@@ -1,6 +1,22 @@
+import { useState } from "react";
 import "./Login.css";
+import { login } from "./api/api";
 
-function App() {
+function Login() {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const data = await login(email, password, rememberMe);
+      console.log("Logged in:", data);
+    } catch (err) {
+      console.error("Login failed:", err);
+    }
+  };
+
   return (
     <div className="bg-gray-100 flex items-center justify-center min-h-screen">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-sm w-full">
@@ -8,7 +24,7 @@ function App() {
           Login
         </h2>
 
-        <form action="#" method="POST">
+        <form action="#" method="POST" onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               htmlFor="email"
@@ -18,6 +34,8 @@ function App() {
             </label>
             <input
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               id="email"
               name="email"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -35,6 +53,8 @@ function App() {
             </label>
             <input
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               id="password"
               name="password"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -46,6 +66,8 @@ function App() {
           <div className="flex items-center mb-4">
             <input
               type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
               id="remember"
               name="remember"
               className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
@@ -83,4 +105,4 @@ function App() {
   );
 }
 
-export default App;
+export default Login;

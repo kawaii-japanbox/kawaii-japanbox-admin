@@ -1,17 +1,41 @@
 import { useState } from "react";
 import "./Login.css";
 import { login } from "./api/api";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "./UserContext";
+import { jwtDecode } from "jwt-decode";
 
-function Login() {
+interface LoginProps {
+  setAuthUser: React.Dispatch<
+    React.SetStateAction<{ userId: string; role: string } | null>
+  >;
+}
+
+interface DecodedToken {
+  userId: string;
+  role: string;
+}
+
+const Login: React.FC<LoginProps> = ({ setAuthUser }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
+  const { user, setUser } = useUser();
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const data = await login(email, password, rememberMe);
-      console.log("Logged in:", data);
+      const response = await login(email, password, rememberMe);
+      console.log(response);
+      const decoded = jwtDecode<DecodedToken>(response.accessToken);
+      console.log(decoded);
+      setUser({ userId: decoded.userId, role: decoded.role });
+      console.log("Set User Context:", user);
+      navigate("/dashboard", { replace: true });
+
+      console.log("Logged in:", response);
     } catch (err) {
       console.error("Login failed:", err);
     }
@@ -24,7 +48,7 @@ function Login() {
           Login
         </h2>
 
-        <form action="#" method="POST" onSubmit={handleSubmit}>
+        <form action="submit" method="POST" onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               htmlFor="email"
@@ -103,6 +127,6 @@ function Login() {
       </div>
     </div>
   );
-}
+};
 
 export default Login;

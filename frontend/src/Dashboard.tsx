@@ -1,84 +1,77 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useUser } from "./UserContext";
+interface DashboardProps {
+  user: { userId: string; role: string } | null;
+}
 
-function Dashboard() {
+export type Role = "ADMIN" | "SALES" | "DELIVERY";
+
+export type SidebarKey =
+  | "home"
+  | "users"
+  | "customers"
+  | "orders"
+  | "analytics"
+  | "notifications"
+  | "products";
+
+export const rolePermissions: Record<Role, string[]> = {
+  ADMIN: [
+    "home",
+    "users",
+    "customers",
+    "orders",
+    "notifications",
+    "analytics",
+    "products",
+  ],
+  SALES: ["home", "customers", "orders", "products"],
+  DELIVERY: ["orders"],
+};
+
+export const sidebarItems: Record<SidebarKey, string> = {
+  home: "Home",
+  users: "Users",
+  customers: "Customers",
+  orders: "Orders",
+  notifications: "Notifications",
+  analytics: "Analytics",
+  products: "Products",
+};
+
+const Dashboard: React.FC<DashboardProps> = () => {
+  const { user } = useUser();
+
+  if (!user) {
+    return null; // Or render a loading spinner
+  }
+
+  const allowedItems =
+    rolePermissions[user.role as keyof typeof rolePermissions] || [];
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <aside className="w-64 bg-gray-800 text-gray-100">
+    <>
+      <aside className="w-64 bg-gray-800 text-gray-100 h-screen">
         <div className="p-4 text-lg font-semibold text-center border-b border-gray-700">
           Dashboard
         </div>
         <nav className="mt-4">
           <ul>
-            <li>
-              <a
-                href="#"
-                className="block py-2.5 px-4 rounded hover:bg-gray-700"
-              >
-                Home
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block py-2.5 px-4 rounded hover:bg-gray-700"
-              >
-                Users
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block py-2.5 px-4 rounded hover:bg-gray-700"
-              >
-                Customers
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block py-2.5 px-4 rounded hover:bg-gray-700"
-              >
-                Orders
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block py-2.5 px-4 rounded hover:bg-gray-700"
-              >
-                Notifications
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block py-2.5 px-4 rounded hover:bg-gray-700"
-              >
-                Analytics
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block py-2.5 px-4 rounded hover:bg-gray-700"
-              >
-                Products
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block py-2.5 px-4 rounded hover:bg-gray-700"
-              >
-                Logout
-              </a>
-            </li>
+            {allowedItems.map((itemKey) => (
+              <li key={itemKey}>
+                <Link
+                  to={`/${itemKey}`}
+                  className="block py-2.5 px-4 rounded hover:bg-gray-700"
+                >
+                  {sidebarItems.hasOwnProperty(itemKey)
+                    ? sidebarItems[itemKey as keyof typeof sidebarItems]
+                    : itemKey}
+                </Link>
+              </li>
+            ))}
           </ul>
         </nav>
       </aside>
-
-      {/* Main Content */}
       <main className="flex-1 p-6">
         <h1 className="text-2xl font-bold mb-4">Welcome to the Dashboard</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -96,8 +89,8 @@ function Dashboard() {
           </div>
         </div>
       </main>
-    </div>
+    </>
   );
-}
+};
 
 export default Dashboard;

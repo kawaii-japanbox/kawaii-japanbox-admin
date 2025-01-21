@@ -1,12 +1,5 @@
 import React from "react";
 
-interface ConfirmationModalProps {
-  isOpen: boolean;
-  onConfirm: () => void;
-  onCancel: () => void;
-  message: string;
-}
-
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   isOpen,
   onConfirm,

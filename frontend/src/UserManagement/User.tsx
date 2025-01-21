@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { PencilIcon, TrashIcon, PlusIcon } from "@heroicons/react/24/solid";
 import { getUsers } from "../api/api";
 import ConfirmationModal from "./ConfirmationModal"; // import the modal component
+import UserForm from "./UserForm";
+import { roleColors } from "./data";
 
 const UserManagement = () => {
   const [users, setUsers] = useState<IUserResponse[] | null>(null);
@@ -9,7 +11,9 @@ const UserManagement = () => {
   const [error, setError] = useState<string | null>(null);
   const [totalCount, setTotalCount] = useState<number | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const fetchUsers = async () => {
     try {
@@ -26,11 +30,34 @@ const UserManagement = () => {
 
   // Handle the deletion trigger (open modal)
   const handleDelete = (userId: string) => {
-    setSelectedUserId(userId); // Save userId to state for confirmation
-    setIsDeleteModalOpen(true); // Open the confirmation modal
+    setSelectedUserId(userId);
+    setIsDeleteModalOpen(true);
   };
 
-  // Confirm the deletion
+  const formatDate = (isoString: string) => {
+    const date = new Date(isoString);
+    return date.toLocaleString("ru-KZ", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+  };
+
+  const handleAddUser = () => {
+    setIsEdit(false);
+    // setSelectedUser(null); // No pre-filled user data
+    setIsCreateModalOpen(true);
+  };
+
+  const handleEditUser = (user: any) => {
+    setIsEdit(true); // Set to edit mode
+    // setSelectedUser(user); // Pass the user data to pre-fill form fields
+    setIsCreateModalOpen(true);
+  };
+
   const confirmDelete = async () => {
     if (!selectedUserId) return;
 
@@ -38,16 +65,16 @@ const UserManagement = () => {
       // await axios.delete(`http://localhost:8001/api/user/${selectedUserId}`, {
       //   withCredentials: true,
       // });
-      setIsDeleteModalOpen(false); // Close the modal after deletion
-      fetchUsers(); // Fetch the updated list of users
+      setIsDeleteModalOpen(false);
+      fetchUsers();
     } catch (error) {
       console.error("Error deleting user:", error);
     }
   };
 
   const cancelDelete = () => {
-    setIsDeleteModalOpen(false); // Close the modal without deleting
-    setSelectedUserId(null); // Clear selected user ID
+    setIsDeleteModalOpen(false);
+    setSelectedUserId(null);
   };
 
   useEffect(() => {
@@ -125,7 +152,7 @@ const UserManagement = () => {
         <div className="flex justify-between items-center mb-4">
           <h4 className="text-2xl font-semibold">All Users: {totalCount}</h4>
           <button
-            // onClick={handleAddUser}
+            onClick={handleAddUser}
             className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
           >
             <PlusIcon className="w-5 h-5 mr-2" />
@@ -172,23 +199,19 @@ const UserManagement = () => {
                 <td className="py-4 px-6 text-sm">
                   <span
                     className={`px-2 py-1 rounded-full text-xs font-semibold text-white ${
-                      user.role === "Admin"
-                        ? "bg-blue-500"
-                        : user.role === "Editor"
-                        ? "bg-yellow-500"
-                        : "bg-gray-500"
+                      roleColors[user.role] || "bg-gray-500"
                     }`}
                   >
                     {user.role}
                   </span>
                 </td>
                 <td className="py-4 px-6 text-sm text-gray-800">
-                  {user.created_at?.toString()}
+                  {formatDate(user.createdAt)}
                 </td>
                 <td className="py-4 px-6 text-center flex justify-center gap-2">
                   {/* Edit Icon */}
                   <button
-                    // onClick={() => handleEdit(user.id)}
+                    onClick={() => handleEditUser(user)}
                     className="text-blue-500 hover:text-blue-700"
                     title="Edit User"
                   >
@@ -214,6 +237,11 @@ const UserManagement = () => {
         onConfirm={confirmDelete}
         onCancel={cancelDelete}
         message="Are you sure you want to delete this user?"
+      />
+      <UserForm
+        isModalOpen={isCreateModalOpen}
+        setIsModalOpen={setIsCreateModalOpen}
+        isEdit={isEdit}
       />
     </div>
   );

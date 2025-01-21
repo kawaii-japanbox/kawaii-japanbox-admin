@@ -4,5 +4,19 @@ interface IUserResponse {
   email: string | null;
   phone: string | null;
   role: string;
-  created_at: Date;
+  createdAt: string;
+}
+
+interface ConfirmationModalProps {
+  isOpen: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+  message: string;
+}
+
+interface UserFormProps {
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isEdit: boolean;
+  user?: IUserResponse; // User data for editing
 }

@@ -4,6 +4,7 @@ import { getUsers } from "../api/api";
 import ConfirmationModal from "./ConfirmationModal"; // import the modal component
 import UserForm from "./UserForm";
 import { roleColors } from "./data";
+import Pagination from "./Pagination";
 
 const UserManagement = () => {
   const [users, setUsers] = useState<IUserResponse[] | null>(null);
@@ -14,13 +15,16 @@ const UserManagement = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pages, setPages] = useState<number>(0);
 
-  const fetchUsers = async () => {
+  const fetchUsers = async (page: number) => {
     try {
       setLoading(true);
-      const data = await getUsers(); // Replace with your endpoint
-      setUsers(data.data); // Ensure the backend response structure matches
-      setTotalCount(data.total);
+      const { data, total, pages } = await getUsers(page); // Replace with your endpoint
+      setUsers(data); // Ensure the backend response structure matches
+      setTotalCount(total);
+      setPages(pages);
     } catch (err) {
       setError("Failed to fetch users. Please try again later.");
     } finally {
@@ -66,7 +70,7 @@ const UserManagement = () => {
       //   withCredentials: true,
       // });
       setIsDeleteModalOpen(false);
-      fetchUsers();
+      fetchUsers(currentPage);
     } catch (error) {
       console.error("Error deleting user:", error);
     }
@@ -77,59 +81,15 @@ const UserManagement = () => {
     setSelectedUserId(null);
   };
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    console.log(`Navigated to page: ${page}`);
+  };
+
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    fetchUsers(currentPage);
+  }, [currentPage]);
 
-  // Calculate the paginated data
-  // const indexOfLastUser = currentPage * usersPerPage;
-  // const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  // const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
-
-  // // Total pages
-  // const totalPages = Math.ceil(users.length / usersPerPage);
-
-  // Handlers for pagination
-  // const handleNext = () => {
-  //   if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
-  // };
-
-  // const handleClick = (page) => {
-  //   if (page >= 1 && page <= totalPages) {
-  //     onPageChange(page);
-  //   }
-
-  // const handlePrevious = () => {
-  //   if (currentPage > 1) setCurrentPage((prev) => prev - 1);
-  // };
-
-  // const handlePageClick = (page: number) => {
-  //   setCurrentPage(page);
-  // };
-
-  // const handleInputChange = (e: any) => {
-  //   const { name, value } = e.target;
-  //   setNewUser((prev) => ({ ...prev, [name]: value }));
-  // };
-
-  // const handleAddUser = () => {
-  //   if (!newUser.name || !newUser.email) {
-  //     alert("Please fill in all fields.");
-  //     return;
-  //   }
-
-  //   const newUserWithId = {
-  //     ...newUser,
-  //     id: users.length + 1, // Generate a simple ID
-  //   };
-
-  //   setUsers((prev) => [...prev, newUserWithId]);
-  //   setNewUser({ name: "", email: "", role: "Viewer" }); // Reset form
-  // };
-
-  // const handleDelete = (userId: number) => {
-  //   setUsers((prev) => prev.filter((user) => user.id !== userId));
-  // };
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -232,6 +192,11 @@ const UserManagement = () => {
           </tbody>
         </table>
       </div>
+      <Pagination
+        page={currentPage}
+        pages={pages}
+        onPageChange={handlePageChange}
+      />
       <ConfirmationModal
         isOpen={isDeleteModalOpen}
         onConfirm={confirmDelete}

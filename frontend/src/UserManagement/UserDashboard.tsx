@@ -5,8 +5,9 @@ import { getUsers } from "../api/api";
 import ConfirmationModal from "./ConfirmationModal"; // import the modal component
 import UserForm from "./UserForm";
 import { roleColors } from "./data";
-import Pagination from "./Pagination";
+import Pagination from "../Pagination";
 import "@fontsource/inter"; // Defaults to weight 400
+import { formatDate } from "../utils/helpers";
 // import "@fontsource/inter/variable.css";
 
 const UserDashboard = () => {
@@ -40,18 +41,6 @@ const UserDashboard = () => {
   const handleDelete = (userId: string) => {
     setSelectedUserId(userId);
     setIsDeleteModalOpen(true);
-  };
-
-  const formatDate = (isoString: string) => {
-    const date = new Date(isoString);
-    return date.toLocaleString("ru-KZ", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
   };
 
   const handleAddUser = () => {

@@ -28,12 +28,11 @@ const UserForm: React.FC<UserFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Form submission logic
+
     try {
       if (isEdit && user) {
         // Update existing user
         await updateUser({ id: user.id, data: { ...formData } });
-        // await axios.put(`/api/users/${userId}`, formData);
         alert("User updated successfully!");
       } else {
         // Create new user

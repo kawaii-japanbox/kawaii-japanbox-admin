@@ -1,4 +1,6 @@
-interface IUserResponse {
+import { Role } from "./data";
+
+export interface IUserResponse {
   id: string;
   name: string;
   email: string | null;
@@ -7,16 +9,34 @@ interface IUserResponse {
   createdAt: string;
 }
 
-interface ConfirmationModalProps {
+export interface ICreateUserForm {
+  name?: string;
+  email: string;
+  password: string;
+  role: Role;
+}
+
+export interface IUpdateUserForm {
+  id: string;
+  data: { name: string; email: string; role: Role; phone?: string };
+}
+
+export interface ConfirmationModalProps {
   isOpen: boolean;
   onConfirm: () => void;
   onCancel: () => void;
   message: string;
 }
 
-interface UserFormProps {
+export interface UserFormProps {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isEdit: boolean;
-  user?: IUserResponse; // User data for editing
+  user: IUserResponse | null;
+}
+
+export interface PaginationProps {
+  page: number;
+  pages: number;
+  onPageChange: (page: number) => void;
 }

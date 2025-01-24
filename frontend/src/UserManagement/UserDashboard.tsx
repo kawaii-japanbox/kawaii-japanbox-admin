@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { PencilIcon, TrashIcon, PlusIcon } from "@heroicons/react/24/solid";
+import { IUserResponse } from "./interface";
 import { getUsers } from "../api/api";
 import ConfirmationModal from "./ConfirmationModal"; // import the modal component
 import UserForm from "./UserForm";
 import { roleColors } from "./data";
 import Pagination from "./Pagination";
+import "@fontsource/inter"; // Defaults to weight 400
+// import "@fontsource/inter/variable.css";
 
-const UserManagement = () => {
+const UserDashboard = () => {
   const [users, setUsers] = useState<IUserResponse[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -17,12 +20,14 @@ const UserManagement = () => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pages, setPages] = useState<number>(0);
+  const [selectedUser, setSelectedUser] = useState<IUserResponse | null>(null);
 
   const fetchUsers = async (page: number) => {
     try {
-      setLoading(true);
-      const { data, total, pages } = await getUsers(page); // Replace with your endpoint
-      setUsers(data); // Ensure the backend response structure matches
+      console.log("rigth before fetching...");
+      const { data, total, pages } = await getUsers(page);
+      console.log("result after loading:", data);
+      setUsers(data);
       setTotalCount(total);
       setPages(pages);
     } catch (err) {
@@ -32,7 +37,6 @@ const UserManagement = () => {
     }
   };
 
-  // Handle the deletion trigger (open modal)
   const handleDelete = (userId: string) => {
     setSelectedUserId(userId);
     setIsDeleteModalOpen(true);
@@ -52,13 +56,13 @@ const UserManagement = () => {
 
   const handleAddUser = () => {
     setIsEdit(false);
-    // setSelectedUser(null); // No pre-filled user data
+    setSelectedUser(null);
     setIsCreateModalOpen(true);
   };
 
-  const handleEditUser = (user: any) => {
-    setIsEdit(true); // Set to edit mode
-    // setSelectedUser(user); // Pass the user data to pre-fill form fields
+  const handleEditUser = (user: IUserResponse) => {
+    setIsEdit(true);
+    setSelectedUser(user);
     setIsCreateModalOpen(true);
   };
 
@@ -107,65 +111,66 @@ const UserManagement = () => {
   }
 
   return (
-    <div className="bg-gray-100 min-h-screen p-8">
+    <div className="bg-gray-50 min-h-screen p-8">
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-4">
-          <h4 className="text-2xl font-semibold">All Users: {totalCount}</h4>
+          <h4 className="text-2xl font-inter text-lg">
+            All Users: {totalCount}
+          </h4>
           <button
             onClick={handleAddUser}
-            className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+            className="flex items-center bg-blue-500 text-white px-4 py-2 font-inter font-light rounded-lg hover:bg-blue-600"
           >
             <PlusIcon className="w-5 h-5 mr-2" />
             Add New User
           </button>
         </div>
-        {/* Other content, e.g., user table */}
       </div>
       {/* User Table */}
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
-        <table className="min-w-full border-collapse border border-gray-200">
-          <thead className="bg-gray-200">
+        <table className="min-w-full border-collapse border border-white-100">
+          <thead className="bg-gray-100">
             <tr>
-              <th className="py-3 px-6 text-left text-sm font-medium text-gray-700">
-                Name
+              <th className="py-3 px-6 text-left font-inter text-sm font-light text-[#6B7280]]">
+                NAME
               </th>
-              <th className="py-3 px-6 text-left text-sm font-medium text-gray-700">
-                Email
+              <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
+                EMAIL
               </th>
-              <th className="py-3 px-6 text-left text-sm font-medium text-gray-700">
-                Phone
+              <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
+                PHONE
               </th>
-              <th className="py-3 px-6 text-left text-sm font-medium text-gray-700">
-                Role
+              <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
+                ROLE
               </th>
-              <th className="py-3 px-6 text-left text-sm font-medium text-gray-700">
-                Created At
+              <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
+                CREATED
               </th>
-              <th className="py-3 px-6 text-center text-sm font-medium text-gray-700">
-                Actions
-              </th>
+              <th className="py-3 px-6 text-center text-sm font-medium text-gray-700"></th>
             </tr>
           </thead>
           <tbody>
             {users?.map((user) => (
-              <tr key={user.id} className="hover:bg-gray-100 border-t">
-                <td className="py-4 px-6 text-sm text-gray-800">{user.name}</td>
-                <td className="py-4 px-6 text-sm text-gray-800">
+              <tr key={user.id} className="hover:bg-gray-50 border-t">
+                <td className="py-4 px-6 font-inter font-light text-sm text-gray-800">
+                  {user.name}
+                </td>
+                <td className="py-4 px-6 font-inter font-light text-sm text-gray-800">
                   {user.email}
                 </td>
-                <td className="py-4 px-6 text-sm text-gray-800">
+                <td className="py-4 px-6 font-inter font-light text-sm text-gray-800">
                   {user.phone}
                 </td>
-                <td className="py-4 px-6 text-sm">
+                <td className="py-4 px-6 font-inter font-light text-sm">
                   <span
-                    className={`px-2 py-1 rounded-full text-xs font-semibold text-white ${
+                    className={`px-2 py-1 rounded-full  font-inter font-light text-xs font-semibold text-white ${
                       roleColors[user.role] || "bg-gray-500"
                     }`}
                   >
                     {user.role}
                   </span>
                 </td>
-                <td className="py-4 px-6 text-sm text-gray-800">
+                <td className="py-4 px-6 text-sm font-inter font-light text-gray-800">
                   {formatDate(user.createdAt)}
                 </td>
                 <td className="py-4 px-6 text-center flex justify-center gap-2">
@@ -192,11 +197,13 @@ const UserManagement = () => {
           </tbody>
         </table>
       </div>
-      <Pagination
-        page={currentPage}
-        pages={pages}
-        onPageChange={handlePageChange}
-      />
+      <div className="flex justify-center mt-6">
+        <Pagination
+          page={currentPage}
+          pages={pages}
+          onPageChange={handlePageChange}
+        />
+      </div>
       <ConfirmationModal
         isOpen={isDeleteModalOpen}
         onConfirm={confirmDelete}
@@ -207,9 +214,10 @@ const UserManagement = () => {
         isModalOpen={isCreateModalOpen}
         setIsModalOpen={setIsCreateModalOpen}
         isEdit={isEdit}
+        user={selectedUser}
       />
     </div>
   );
 };
 
-export default UserManagement;
+export default UserDashboard;

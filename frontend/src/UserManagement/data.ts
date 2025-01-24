@@ -8,3 +8,14 @@ export const roleColors: Record<string, string> = {
   CUSTOMER_SERVICE: "bg-teal-500",
   USER: "bg-sky-500",
 };
+
+export enum Role {
+  SUPER_ADMIN = "Super Admin",
+  CUSTOMER_SERVICE = "Customer Service",
+  SALES = "Sales",
+  ADMIN = "Admin",
+  PARTNER = "Partner",
+  MERCHANDISER = "Merchandiser",
+  DELIVERY = "Delivery",
+  USER = "User",
+}

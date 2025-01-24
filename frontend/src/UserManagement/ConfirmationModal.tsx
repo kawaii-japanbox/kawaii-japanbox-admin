@@ -1,4 +1,5 @@
 import React from "react";
+import { ConfirmationModalProps } from "./interface";
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   isOpen,

@@ -1,10 +1,5 @@
 import React from "react";
-
-interface PaginationProps {
-  page: number; // Current page number
-  pages: number; // Total number of pages
-  onPageChange: (page: number) => void; // Callback to handle page changes
-}
+import { PaginationProps } from "./interface";
 
 const Pagination: React.FC<PaginationProps> = ({
   page,
@@ -32,7 +27,9 @@ const Pagination: React.FC<PaginationProps> = ({
             onClick={handlePrevious}
             disabled={page === 1}
             className={`flex items-center justify-center px-4 h-10 ms-0 leading-tight ${
-              page === 1 ? "text-gray-400" : "text-gray-500 hover:text-gray-700"
+              page === 1
+                ? "text-gray-400 font-inter font-light"
+                : "text-gray-500 font-inter font-light hover:text-gray-700"
             } bg-white border border-gray-300 rounded-s-lg`}
           >
             Previous
@@ -62,8 +59,8 @@ const Pagination: React.FC<PaginationProps> = ({
             disabled={page === pages}
             className={`flex items-center justify-center px-4 h-10 leading-tight ${
               page === pages
-                ? "text-gray-400"
-                : "text-gray-500 hover:text-gray-700"
+                ? "text-gray-400 font-inter font-light"
+                : "text-gray-500 font-inter font-light hover:text-gray-700"
             } bg-white border border-gray-300 rounded-e-lg`}
           >
             Next

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { FileUploadProps } from "./interface";
+import { ModalOpenProps } from "./interface";
 
-const FileUploadModal: React.FC<FileUploadProps> = ({
+const FileUploadModal: React.FC<ModalOpenProps> = ({
   isModalOpen,
   setIsModalOpen,
 }) => {

@@ -6,9 +6,15 @@ import {
 } from "@heroicons/react/24/solid";
 import React, { useState, useEffect } from "react";
 import FileUpload from "./FileUpload";
+import { formatDate } from "../utils/helpers";
+import Pagination from "../Pagination";
+import StatusModal from "./StatusModal";
 
 const OrderDashboard = () => {
-  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
+  const [isStatusModalOpen, setIsStatusModalOpen] = useState<boolean>(false);
+
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const currentOrder = [
     {
       id: 1,
@@ -67,6 +73,13 @@ const OrderDashboard = () => {
   const handleOpenUploadModal = () => {
     setIsUploadModalOpen(true);
   };
+  const handleStatusModalOpen = () => {
+    setIsStatusModalOpen(true);
+  };
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    console.log(`Navigated to page: ${page}`);
+  };
   const handleDropdownChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -122,7 +135,6 @@ const OrderDashboard = () => {
           <option value="This year">This year</option>
         </select>
       </div>
-
       {/* Boxes Section */}
       <div className="flex flex-wrap gap-6 p-6">
         <div className="bg-[#ff7344] text-white rounded-lg p-6 flex-1 text-center shadow-md">
@@ -223,7 +235,6 @@ const OrderDashboard = () => {
       <div className="mb-6">
         <h1 className="text-lg font-inter font-medium"> Order List</h1>
       </div>
-
       {/* Filters and Search */}
       <div className="flex items-center gap-4 mb-6">
         <div className="flex gap-2">
@@ -279,7 +290,6 @@ const OrderDashboard = () => {
           />
         </div>
       </div>
-
       {/* User Table */}
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
         <table className="min-w-full border-collapse border border-white-100">
@@ -331,12 +341,12 @@ const OrderDashboard = () => {
                   {user.comment}
                 </td>
                 <td className="py-4 px-6 font-inter font-light text-sm">
-                  {user.createdAt}
+                  {formatDate(user.createdAt)}
                 </td>
                 <td className="py-4 px-6 text-center flex justify-center gap-2">
                   {/* Edit Icon */}
                   <button
-                    // onClick={() => handleEditUser(user)}
+                    onClick={handleStatusModalOpen}
                     className="text-blue-500 hover:text-blue-700"
                     title="Edit User"
                   >
@@ -357,6 +367,17 @@ const OrderDashboard = () => {
         <FileUpload
           isModalOpen={isUploadModalOpen}
           setIsModalOpen={setIsUploadModalOpen}
+        />
+        <StatusModal
+          isModalOpen={isStatusModalOpen}
+          setIsModalOpen={setIsStatusModalOpen}
+        />
+      </div>
+      <div className="flex justify-center mt-6">
+        <Pagination
+          page={currentPage}
+          pages={1}
+          onPageChange={handlePageChange}
         />
       </div>
     </div>

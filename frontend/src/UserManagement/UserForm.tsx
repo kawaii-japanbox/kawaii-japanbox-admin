@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Role } from "./data";
 import { UserFormProps } from "./interface";
 import { createUser, updateUser } from "../api/api";
@@ -61,6 +61,18 @@ const UserForm: React.FC<UserFormProps> = ({
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    if (isEdit && user) {
+      setFormData({
+        name: user.name,
+        email: user.email!,
+        role: user.role as Role,
+        phone: user.phone || "",
+        password: "",
+      });
+    }
+  }, [isEdit, user]);
 
   return (
     <div>
@@ -127,6 +139,7 @@ const UserForm: React.FC<UserFormProps> = ({
                     <input
                       type="tel"
                       id="phone"
+                      name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
                       className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"

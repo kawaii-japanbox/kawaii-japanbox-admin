@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PencilIcon, TrashIcon, PlusIcon } from "@heroicons/react/24/solid";
 import { IUserResponse } from "./interface";
-import { getUsers } from "../api/api";
+import { deleteUser, getUsers } from "../api/api";
 import ConfirmationModal from "./ConfirmationModal"; // import the modal component
 import UserForm from "./UserForm";
 import { roleColors } from "./data";
@@ -59,9 +59,7 @@ const UserDashboard = () => {
     if (!selectedUserId) return;
 
     try {
-      // await axios.delete(`http://localhost:8001/api/user/${selectedUserId}`, {
-      //   withCredentials: true,
-      // });
+      await deleteUser(selectedUserId);
       setIsDeleteModalOpen(false);
       fetchUsers(currentPage);
     } catch (error) {

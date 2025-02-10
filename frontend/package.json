@@ -30,7 +30,7 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HOST=0.0.0.0 PORT=$PORT react-scripts start",
     "build": "NODE_OPTIONS='--max-old-space-size=1024' react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

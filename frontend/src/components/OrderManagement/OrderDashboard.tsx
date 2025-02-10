@@ -47,30 +47,6 @@ const OrderDashboard = () => {
   ) => {
     setTimeframe(event.target.value);
   };
-  // const filteredOrders = orders
-  //   .filter(
-  //     (order) =>
-  //       (filter === "All" || order.status === filter) &&
-  //       (search === "" ||
-  //         order.customer.toLowerCase().includes(search.toLowerCase()))
-  //   )
-  //   .sort((a, b) => {
-  //     if (sortField === "amount") {
-  //       const amountA = parseFloat(a.amount.replace("$", ""));
-  //       const amountB = parseFloat(b.amount.replace("$", ""));
-  //       return sortOrder === "asc" ? amountA - amountB : amountB - amountA;
-  //     } else if (sortField === "date") {
-  //       const dateA = new Date(a.date);
-  //       const dateB = new Date(b.date);
-  //       return sortOrder === "asc"
-  //         ? dateA.getTime() - dateB.getTime()
-  //         : dateB.getTime() - dateA.getTime();
-  //     } else {
-  //       return sortOrder === "asc"
-  //         ? a[sortField].localeCompare(b[sortField])
-  //         : b[sortField].localeCompare(a[sortField]);
-  //     }
-  //   });
 
   useEffect(() => {
     const fetchOrders = async () => {

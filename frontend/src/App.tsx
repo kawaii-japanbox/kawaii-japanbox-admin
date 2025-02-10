@@ -19,7 +19,7 @@ const App: React.FC = () => {
           <Route path="/orders" element={<OrderDashboard />}></Route>
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route
-            path="/home"
+            path="/"
             element={
               <ProtectedRoute page="home">
                 <Dashboard />

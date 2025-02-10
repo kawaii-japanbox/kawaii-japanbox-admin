@@ -6,7 +6,7 @@ import {
 import { Role } from "../components/UserManagement/data";
 
 const API = axios.create({
-  baseURL: "http://localhost:8001/api",
+  baseURL: `${process.env.BASE_URL}/api`,
 });
 
 API.interceptors.request.use((config) => {

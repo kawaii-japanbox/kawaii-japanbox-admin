@@ -4,6 +4,7 @@ import {
   IUpdateUserForm,
 } from "../components/UserManagement/interface";
 import { Role } from "../components/UserManagement/data";
+import { IGetOrderForm } from "../components/OrderManagement/interface";
 
 const API = axios.create({
   baseURL: `${process.env.REACT_APP_BASE_URL}/api`,
@@ -59,5 +60,18 @@ export const deleteUser = async (userId: string) => {
   await API.delete(`/admin/users/${userId}`, {
     withCredentials: true,
   });
+};
+
+export const getOrders = async (data: IGetOrderForm) => {
+  const { filter, search, sortBy, sortOrder } = data;
+  const response = await API.get("/admin/orders", {
+    params: {
+      status: filter !== "All" ? filter : undefined,
+      search: search || undefined,
+      sortBy,
+      sortOrder,
+    },
+  });
+  return response.data;
 };
 export default API;

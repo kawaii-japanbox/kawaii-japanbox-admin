@@ -1,9 +1,4 @@
-import {
-  PencilIcon,
-  TrashIcon,
-  PlusIcon,
-  ArrowUpTrayIcon,
-} from "@heroicons/react/24/solid";
+import { PencilIcon, ArrowUpTrayIcon } from "@heroicons/react/24/solid";
 import { ArrowUp, ArrowDown, ArrowUpDown } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import FileUpload from "./FileUpload";
@@ -11,10 +6,10 @@ import { formatDate } from "../../utils/helpers";
 import Pagination from "../../Pagination";
 import StatusModal from "./StatusModal";
 import Layout from "../../Layout";
-import axios from "axios";
 import Spinner from "../../Spinner";
-import { IOrderResponse, Order } from "./interface";
+import { Order } from "./interface";
 import { orderStatuses } from "./data";
+import { getOrders } from "../../api/api";
 
 const OrderDashboard = () => {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
@@ -27,7 +22,6 @@ const OrderDashboard = () => {
 
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
-  // const [sortField, setSortField] = useState<keyof (typeof orders)[0]>("id");
 
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
@@ -51,17 +45,12 @@ const OrderDashboard = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8001/api/admin/orders",
-          {
-            params: {
-              status: filter !== "All" ? filter : undefined,
-              search: search || undefined,
-              sortBy,
-              sortOrder,
-            },
-          }
-        );
+        const response = await getOrders({
+          filter,
+          search,
+          sortBy,
+          sortOrder,
+        });
         setOrders(response.data.orders || []);
         setCurrentPage(response.data.pages);
         setPages(response.data.total);
@@ -82,15 +71,6 @@ const OrderDashboard = () => {
       setSortOrder("asc");
     }
   };
-
-  // const handleSort = (field: any) => {
-  //   if (sortField === field) {
-  //     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-  //   } else {
-  //     setSortField(field);
-  //     setSortOrder("asc");
-  //   }
-  // };
 
   return (
     <Layout>

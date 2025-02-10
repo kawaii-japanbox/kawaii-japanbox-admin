@@ -21,3 +21,10 @@ export interface Order {
     name: string | null;
   };
 }
+
+export interface IGetOrderForm {
+  filter: string;
+  search: string;
+  sortBy: string;
+  sortOrder: string;
+}

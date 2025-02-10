@@ -42,10 +42,6 @@ export const getUsers = async (currentPage: number) => {
 
 export const createUser = async (data: ICreateUserForm) => {
   const { email, password, name, role } = data;
-  console.log(email);
-  console.log(password);
-  console.log(name);
-  console.log(role);
 
   const response = await API.post("/admin/users", {
     email,

@@ -11,7 +11,7 @@ import { formatDate } from "../../utils/helpers";
 import Layout from "../../Layout";
 // import "@fontsource/inter/variable.css";
 
-const UserDashboard = () => {
+const UserDashboardPage = () => {
   const [users, setUsers] = useState<IUserResponse[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -210,4 +210,4 @@ const UserDashboard = () => {
   );
 };
 
-export default UserDashboard;
+export default UserDashboardPage;

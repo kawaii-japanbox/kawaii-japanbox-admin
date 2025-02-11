@@ -3,7 +3,6 @@ import { useAuth } from "./hooks/useAuth";
 
 export const rolePermissions: Record<Role, string[]> = {
   ADMIN: [
-    "home",
     "users",
     "customers",
     "orders",
@@ -11,14 +10,13 @@ export const rolePermissions: Record<Role, string[]> = {
     "analytics",
     "products",
   ],
-  SALES: ["home", "dashboard", "customers", "orders", "products"],
+  SALES: ["dashboard", "customers", "orders", "products"],
   DELIVERY: ["orders"],
 };
 
 export type Role = "ADMIN" | "SALES" | "DELIVERY";
 
 export type SidebarKey =
-  | "home"
   | "users"
   | "customers"
   | "orders"
@@ -27,7 +25,6 @@ export type SidebarKey =
   | "products";
 
 export const sidebarItems: Record<SidebarKey, string> = {
-  home: "Home",
   users: "Users",
   customers: "Customers",
   orders: "Orders",

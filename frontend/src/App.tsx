@@ -1,31 +1,47 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
-import Login from "./Login";
+import LoginPage from "./LoginPage";
 import Dashboard from "./Dashboard";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import Unauthorized from "./Unauthorized";
 import { AuthProvider } from "./hooks/useAuth";
-import UserDashboard from "./components/UserManagement/UserDashboard";
-import OrderDashboard from "./components/OrderManagement/OrderDashboard";
+import UserDashboardPage from "./components/UserManagement/UserDashboardPage";
+import OrderDashboardPage from "./components/OrderManagement/OrderDashboardPage";
+import HomePage from "./HomePage";
 
 const App: React.FC = () => {
   return (
     <Router>
       <AuthProvider>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/users" element={<UserDashboard />} />
-          <Route path="/orders" element={<OrderDashboard />}></Route>
-          <Route path="/unauthorized" element={<Unauthorized />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route
-            path="/"
+            path="/users"
             element={
-              <ProtectedRoute page="home">
-                <Dashboard />
+              <ProtectedRoute page="users">
+                <UserDashboardPage />
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute page="orders">
+                <OrderDashboardPage />
+              </ProtectedRoute>
+            }
+          ></Route>
+          <Route path="/unauthorized" element={<Unauthorized />} />
+          {/* <Route
+            path="/"
+            element={
+              <ProtectedRoute page="/">
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          /> */}
         </Routes>
       </AuthProvider>
     </Router>

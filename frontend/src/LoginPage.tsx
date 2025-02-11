@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import "./Login.css";
 import { useAuth } from "./hooks/useAuth";
 
-const Login: React.FC = () => {
+const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
@@ -105,4 +104,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

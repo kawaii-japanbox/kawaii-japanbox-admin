@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
-import UserDashboard from "./components/UserManagement/UserDashboard";
+import UserDashboard from "./components/UserManagement/UserDashboardPage";
 import Layout from "./Layout";
 
 const Dashboard: React.FC = () => {
@@ -17,7 +17,7 @@ const Dashboard: React.FC = () => {
         <main className="flex-1 p-6 overflow-auto bg-gray-100">
           <Routes>
             <Route
-              path="/home"
+              path="/"
               element={
                 <h1 className="text-2xl font-bold">Welcome to the Dashboard</h1>
               }

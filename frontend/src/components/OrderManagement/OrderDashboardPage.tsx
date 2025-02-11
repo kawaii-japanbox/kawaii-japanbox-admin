@@ -10,8 +10,9 @@ import Spinner from "../../Spinner";
 import { Order } from "./interface";
 import { orderStatuses } from "./data";
 import { getOrders } from "../../api/api";
+import PhotoUploadModal from "./FileUpload";
 
-const OrderDashboard = () => {
+const OrderDashboardPage = () => {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
   const [isStatusModalOpen, setIsStatusModalOpen] = useState<boolean>(false);
 
@@ -44,6 +45,8 @@ const OrderDashboard = () => {
 
   useEffect(() => {
     const fetchOrders = async () => {
+      console.log("filter:", filter);
+
       try {
         const response = await getOrders({
           filter,
@@ -51,16 +54,15 @@ const OrderDashboard = () => {
           sortBy,
           sortOrder,
         });
-        setOrders(response.data.orders || []);
-        setCurrentPage(response.data.pages);
-        setPages(response.data.total);
+        setOrders(response.orders || []);
+        setCurrentPage(response.pages);
+        setPages(response.total);
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
     };
 
     fetchOrders();
-    console.log("filter:", filter);
   }, [filter, search, sortBy, sortOrder]);
 
   const toggleSort = (column: string) => {
@@ -314,9 +316,9 @@ const OrderDashboard = () => {
               )}
             </tbody>
           </table>
-          <FileUpload
-            isModalOpen={isUploadModalOpen}
-            setIsModalOpen={setIsUploadModalOpen}
+          <PhotoUploadModal
+            isOpen={isUploadModalOpen}
+            closeModal={handleOpenUploadModal}
           />
           <StatusModal
             isModalOpen={isStatusModalOpen}
@@ -335,4 +337,4 @@ const OrderDashboard = () => {
   );
 };
 
-export default OrderDashboard;
+export default OrderDashboardPage;

@@ -25,6 +25,9 @@ export const login = async (
   password: string,
   rememberMe: boolean
 ) => {
+  console.log(email);
+  console.log(password);
+  console.log(rememberMe);
   const response = await API.post("/auth/login", {
     email,
     password,

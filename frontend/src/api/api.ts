@@ -7,9 +7,9 @@ import { Role } from "../components/UserManagement/data";
 import { IGetOrderForm } from "../components/OrderManagement/interface";
 
 const API = axios.create({
-  baseURL: `${process.env.RENDER_EXTERNAL_URL}/api`,
+  baseURL: `${process.env.REACT_APP_BASE_URL}/api`,
 });
-console.log("Base URL:", process.env.RENDER_EXTERNAL_URL);
+console.log("Base URL:", process.env.REACT_APP_BASE_URL);
 
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
@@ -28,8 +28,8 @@ export const login = async (
   console.log(email);
   console.log(password);
   console.log(rememberMe);
-  const response = await axios.post(
-    `https://kawaii-japanbox-backend.onrender.com/api/auth/login`,
+  const response = await API.post(
+    `/auth/login`,
     {
       email,
       password,

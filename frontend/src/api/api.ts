@@ -25,17 +25,11 @@ export const login = async (
   password: string,
   rememberMe: boolean
 ) => {
-  const response = await API.post(
-    "/auth/login",
-    {
-      email,
-      password,
-      rememberMe,
-    },
-    {
-      withCredentials: true,
-    }
-  );
+  const response = await API.post("/auth/login", {
+    email,
+    password,
+    rememberMe,
+  });
   return response.data;
 };
 

@@ -3,6 +3,7 @@ import { useAuth } from "./hooks/useAuth";
 
 export const rolePermissions: Record<Role, string[]> = {
   ADMIN: [
+    "dashboard",
     "users",
     "customers",
     "orders",
@@ -11,7 +12,7 @@ export const rolePermissions: Record<Role, string[]> = {
     "products",
   ],
   SALES: ["dashboard", "customers", "orders", "products"],
-  DELIVERY: ["orders"],
+  DELIVERY: ["dashboard", "orders"],
 };
 
 export type Role = "ADMIN" | "SALES" | "DELIVERY";
@@ -38,8 +39,12 @@ const Sidebar: React.FC = () => {
   if (!user) {
     return;
   }
-  const allowedItems =
+  let allowedItems =
     rolePermissions[user.role as keyof typeof rolePermissions] || [];
+  allowedItems = allowedItems.filter(
+    (allowedItem) => allowedItem !== "dashboard"
+  );
+
   console.log(user.role);
   console.log("allowed items:", allowedItems);
   return (
@@ -49,6 +54,14 @@ const Sidebar: React.FC = () => {
       </div>
       <nav className="mt-4">
         <ul>
+          <li key="home">
+            <Link
+              to="/"
+              className="block py-2.5 px-4 rounded hover:bg-gray-700"
+            >
+              Home
+            </Link>
+          </li>
           {allowedItems.map((itemKey) => (
             <li key={itemKey}>
               <Link

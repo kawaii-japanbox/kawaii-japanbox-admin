@@ -1,24 +1,14 @@
-import { Navigate } from "react-router-dom";
-import { Page, useAuth } from "./hooks/useAuth";
-import { JSX } from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "./hooks/useAuth";
 
-interface ProtectedRouteProps {
-  children: JSX.Element;
-  page: string;
-}
-
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, page }) => {
-  const { user, hasPermission } = useAuth();
+const ProtectedRoute: React.FC = () => {
+  const { user } = useAuth();
 
   if (!user) {
     return <Navigate to="/login" />;
   }
 
-  if (!hasPermission(page as Page)) {
-    return <Navigate to="/unauthorized" />;
-  }
-
-  return children;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

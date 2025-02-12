@@ -46,7 +46,7 @@ export const getUsers = async (currentPage: number) => {
     params: { page: currentPage },
     withCredentials: true,
   });
-
+  console.log("users:", response.data);
   return response.data;
 };
 

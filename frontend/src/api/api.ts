@@ -36,6 +36,7 @@ export const login = async (
       rememberMe,
     }
   );
+  console.log(response.data);
   return response.data;
 };
 

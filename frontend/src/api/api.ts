@@ -28,11 +28,14 @@ export const login = async (
   console.log(email);
   console.log(password);
   console.log(rememberMe);
-  const response = await API.post("/auth/login", {
-    email,
-    password,
-    rememberMe,
-  });
+  const response = await axios.post(
+    `${process.env.RENDER_EXTERNAL_URL}api/auth/login`,
+    {
+      email,
+      password,
+      rememberMe,
+    }
+  );
   return response.data;
 };
 

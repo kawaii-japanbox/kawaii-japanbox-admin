@@ -29,7 +29,7 @@ export const login = async (
   console.log(password);
   console.log(rememberMe);
   const response = await axios.post(
-    `${process.env.RENDER_EXTERNAL_URL}/api/auth/login`,
+    `https://kawaii-japanbox-backend.onrender.com/api/auth/login`,
     {
       email,
       password,

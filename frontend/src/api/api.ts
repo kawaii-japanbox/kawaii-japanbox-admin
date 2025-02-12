@@ -34,7 +34,8 @@ export const login = async (
       email,
       password,
       rememberMe,
-    }
+    },
+    { withCredentials: true }
   );
   console.log(response.data);
   return response.data;

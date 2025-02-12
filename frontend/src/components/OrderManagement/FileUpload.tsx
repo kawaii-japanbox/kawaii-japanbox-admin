@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDropzone, FileWithPath, Accept } from "react-dropzone";
-import { CloudArrowUpIcon } from "@heroicons/react/24/solid"; // Import Heroicons
+import { CloudArrowUpIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 
 interface PhotoUploadModalProps {
@@ -40,7 +40,6 @@ const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({
           },
         }
       );
-      console.log(response);
       setUploadMessage(
         `Files uploaded successfully: ${response.data.files.count} files`
       );

@@ -48,7 +48,6 @@ const UserForm: React.FC<UserFormProps> = ({
       console.error("Error saving user:", error);
       alert("An error occurred. Please try again.");
     }
-    console.log("Form submitted!");
     setIsModalOpen(false);
   };
 

@@ -56,7 +56,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       const response = await login(email, password, rememberMe);
       const decoded = jwtDecode<DecodedToken>(response.accessToken);
-      console.log("Decoded Token:", decoded);
       setUser({ userId: decoded.userId, role: decoded.role as Role });
       localStorage.setItem("user", JSON.stringify(response));
       localStorage.setItem("token", response.accessToken);
@@ -73,8 +72,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const hasPermission = (page: Page) => {
-    console.log("user role:", user?.role);
-    console.log("page:", page);
     if (!user) return false;
     return rolePermissions[user.role]?.includes(page) ?? false;
   };

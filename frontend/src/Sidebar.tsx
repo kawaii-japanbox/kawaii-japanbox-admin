@@ -45,8 +45,6 @@ const Sidebar: React.FC = () => {
     (allowedItem) => allowedItem !== "dashboard"
   );
 
-  console.log(user.role);
-  console.log("allowed items:", allowedItems);
   return (
     <aside className="w-64 bg-gray-800 text-gray-100 h-screen">
       <div className="p-4 text-lg font-semibold text-center border-b border-gray-700">

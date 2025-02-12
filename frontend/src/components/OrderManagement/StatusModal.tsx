@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 
-// Enums for Payment and Delivery Status
 import { PaymentStatus, DeliveryStatus } from "./data";
 import { ModalOpenProps } from "./interface";
 
-// Define type for the modal form state
 type ModalState = {
   paymentStatus: PaymentStatus;
   deliveryStatus: DeliveryStatus;
@@ -19,10 +17,8 @@ const StatusModal: React.FC<ModalOpenProps> = ({
     deliveryStatus: DeliveryStatus.PENDING,
   });
 
-  // Handle modal open/close
   const closeModal = () => setIsModalOpen(false);
 
-  // Handle form field changes
   const handleSelectChange = (field: keyof ModalState, value: string) => {
     setFormState((prevState) => ({
       ...prevState,
@@ -30,16 +26,13 @@ const StatusModal: React.FC<ModalOpenProps> = ({
     }));
   };
 
-  // Submit the form (for demonstration)
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formState); // Handle the form submission logic
     closeModal();
   };
 
   return (
     <>
-      {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">

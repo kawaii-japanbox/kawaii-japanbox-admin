@@ -26,9 +26,7 @@ const UserDashboardPage = () => {
 
   const fetchUsers = async (page: number) => {
     try {
-      console.log("rigth before fetching...");
       const { data, total, pages } = await getUsers(page);
-      console.log("result after loading:", data);
       setUsers(data);
       setTotalCount(total);
       setPages(pages);
@@ -75,7 +73,6 @@ const UserDashboardPage = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    console.log(`Navigated to page: ${page}`);
   };
 
   useEffect(() => {

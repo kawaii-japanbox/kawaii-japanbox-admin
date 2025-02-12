@@ -9,11 +9,9 @@ import { IGetOrderForm } from "../components/OrderManagement/interface";
 const API = axios.create({
   baseURL: `${process.env.REACT_APP_BASE_URL}/api`,
 });
-console.log("Base URL:", process.env.REACT_APP_BASE_URL);
 
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
-  console.log("token:", token);
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -25,9 +23,6 @@ export const login = async (
   password: string,
   rememberMe: boolean
 ) => {
-  console.log(email);
-  console.log(password);
-  console.log(rememberMe);
   const response = await API.post(
     `/auth/login`,
     {
@@ -37,7 +32,6 @@ export const login = async (
     },
     { withCredentials: true }
   );
-  console.log(response.data);
   return response.data;
 };
 
@@ -46,20 +40,17 @@ export const getUsers = async (currentPage: number) => {
     params: { page: currentPage },
     withCredentials: true,
   });
-  console.log("users:", response.data);
   return response.data;
 };
 
 export const createUser = async (data: ICreateUserForm) => {
   const { email, password, name, role } = data;
-
   const response = await API.post("/admin/users", {
     email,
     password,
     name,
     role: role as Role,
   });
-  console.log("Created User:", response.data);
 };
 
 export const updateUser = async (data: IUpdateUserForm) => {

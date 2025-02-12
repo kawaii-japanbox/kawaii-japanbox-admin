@@ -35,7 +35,6 @@ const OrderDashboardPage = () => {
   };
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    console.log(`Navigated to page: ${page}`);
   };
   const handleDropdownChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -45,8 +44,6 @@ const OrderDashboardPage = () => {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      console.log("filter:", filter);
-
       try {
         const response = await getOrders({
           filter,

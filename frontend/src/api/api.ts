@@ -9,6 +9,7 @@ import { IGetOrderForm } from "../components/OrderManagement/interface";
 const API = axios.create({
   baseURL: `${process.env.REACT_APP_BASE_URL}/api`,
 });
+console.log("Base URL:", process.env.REACT_APP_BASE_URL);
 
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
@@ -23,11 +24,17 @@ export const login = async (
   password: string,
   rememberMe: boolean
 ) => {
-  const response = await API.post("/auth/login", {
-    email,
-    password,
-    rememberMe,
-  });
+  const response = await API.post(
+    "/auth/login",
+    {
+      email,
+      password,
+      rememberMe,
+    },
+    {
+      withCredentials: true,
+    }
+  );
   return response.data;
 };
 

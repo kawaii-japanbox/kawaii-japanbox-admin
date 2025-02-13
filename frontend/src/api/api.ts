@@ -5,6 +5,10 @@ import {
 } from "../components/UserManagement/interface";
 import { Role } from "../components/UserManagement/data";
 import { IGetOrderForm } from "../components/OrderManagement/interface";
+import {
+  DeliveryStatus,
+  PaymentStatus,
+} from "../components/OrderManagement/data";
 
 const API = axios.create({
   baseURL: `${process.env.REACT_APP_BASE_URL}/api`,
@@ -83,5 +87,16 @@ export const uploadFiles = async (orderId: string, formData: FormData) => {
     },
   });
   return response.data;
+};
+
+export const editOrderStatus = async (
+  orderId: string,
+  paymentStatus: PaymentStatus,
+  deliveryStatus: DeliveryStatus
+) => {
+  const response = await API.put(`/admin/order/status/${orderId}`, {
+    paymentStatus,
+    deliveryStatus,
+  });
 };
 export default API;

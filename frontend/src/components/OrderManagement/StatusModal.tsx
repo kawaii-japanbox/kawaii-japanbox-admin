@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 
 import { PaymentStatus, DeliveryStatus } from "./data";
-import { ModalOpenProps } from "./interface";
+import { ModalState, StatusModalProps } from "./interface";
+import { editOrderStatus } from "../../api/api";
 
-type ModalState = {
-  paymentStatus: PaymentStatus;
-  deliveryStatus: DeliveryStatus;
-};
-
-const StatusModal: React.FC<ModalOpenProps> = ({
+const StatusModal: React.FC<StatusModalProps> = ({
   isModalOpen,
   setIsModalOpen,
+  orderId,
 }) => {
   const [formState, setFormState] = useState<ModalState>({
     paymentStatus: PaymentStatus.PENDING,
@@ -26,8 +23,17 @@ const StatusModal: React.FC<ModalOpenProps> = ({
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    try {
+      await editOrderStatus(
+        orderId,
+        formState.paymentStatus,
+        formState.deliveryStatus
+      );
+    } catch (error) {
+      console.log("Error in update order status:", error);
+    }
     closeModal();
   };
 

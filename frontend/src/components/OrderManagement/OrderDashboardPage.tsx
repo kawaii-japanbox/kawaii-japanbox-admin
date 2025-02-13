@@ -32,7 +32,8 @@ const OrderDashboardPage = () => {
     setSelectedOrderId(orderId);
     setIsUploadModalOpen(true);
   };
-  const handleStatusModalOpen = () => {
+  const handleStatusModalOpen = (orderId: string) => {
+    setSelectedOrderId(orderId);
     setIsStatusModalOpen(true);
   };
   const handlePageChange = (page: number) => {
@@ -294,7 +295,7 @@ const OrderDashboardPage = () => {
                     <td className="py-4 px-6 text-center flex justify-center gap-2">
                       {/* Edit Icon */}
                       <button
-                        onClick={handleStatusModalOpen}
+                        onClick={() => handleStatusModalOpen(order.id)}
                         className="text-blue-500 hover:text-blue-700"
                         title="Edit User"
                       >
@@ -323,6 +324,7 @@ const OrderDashboardPage = () => {
           <StatusModal
             isModalOpen={isStatusModalOpen}
             setIsModalOpen={setIsStatusModalOpen}
+            orderId={selectedOrderId}
           />
         </div>
         <div className="flex justify-center mt-6">

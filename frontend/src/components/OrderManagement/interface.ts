@@ -1,6 +1,9 @@
-export interface ModalOpenProps {
+import { DeliveryStatus, PaymentStatus } from "./data";
+
+export interface StatusModalProps {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  orderId: string;
 }
 
 export interface IOrderResponse {
@@ -34,3 +37,8 @@ export interface PhotoUploadModalProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   orderId: string;
 }
+
+export type ModalState = {
+  paymentStatus: PaymentStatus;
+  deliveryStatus: DeliveryStatus;
+};

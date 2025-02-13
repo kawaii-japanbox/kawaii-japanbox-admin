@@ -75,4 +75,13 @@ export const getOrders = async (data: IGetOrderForm) => {
   });
   return response.data;
 };
+
+export const uploadFiles = async (orderId: string, formData: FormData) => {
+  const response = await API.post(`/admin/order/upload/${orderId}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+};
 export default API;

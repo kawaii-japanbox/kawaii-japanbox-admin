@@ -1,7 +1,6 @@
 import { PencilIcon, ArrowUpTrayIcon } from "@heroicons/react/24/solid";
 import { ArrowUp, ArrowDown, ArrowUpDown } from "lucide-react";
 import React, { useState, useEffect } from "react";
-import FileUpload from "./FileUpload";
 import { formatDate } from "../../utils/helpers";
 import Pagination from "../../Pagination";
 import StatusModal from "./StatusModal";
@@ -10,7 +9,7 @@ import Spinner from "../../Spinner";
 import { Order } from "./interface";
 import { orderStatuses } from "./data";
 import { getOrders } from "../../api/api";
-import PhotoUploadModal from "./FileUpload";
+import PhotoUploadModal from "./PhotoUploadModal";
 
 const OrderDashboardPage = () => {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
@@ -27,7 +26,10 @@ const OrderDashboardPage = () => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
   const [timeframe, setTimeframe] = useState<string>("This month");
-  const handleOpenUploadModal = () => {
+  const [selectedOrderId, setSelectedOrderId] = useState<string>("");
+
+  const handleOpenUploadModal = (orderId: string) => {
+    setSelectedOrderId(orderId);
     setIsUploadModalOpen(true);
   };
   const handleStatusModalOpen = () => {
@@ -299,7 +301,7 @@ const OrderDashboardPage = () => {
                         <PencilIcon className="w-5 h-5" />
                       </button>
                       <button
-                        onClick={handleOpenUploadModal}
+                        onClick={() => handleOpenUploadModal(order.id)}
                         className="text-blue-500 hover:text-blue-700"
                         title="Upload Photo"
                       >
@@ -315,7 +317,8 @@ const OrderDashboardPage = () => {
           </table>
           <PhotoUploadModal
             isOpen={isUploadModalOpen}
-            closeModal={handleOpenUploadModal}
+            setIsModalOpen={setIsUploadModalOpen}
+            orderId={selectedOrderId}
           />
           <StatusModal
             isModalOpen={isStatusModalOpen}

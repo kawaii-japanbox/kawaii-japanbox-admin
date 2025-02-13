@@ -28,3 +28,9 @@ export interface IGetOrderForm {
   sortBy: string;
   sortOrder: string;
 }
+
+export interface PhotoUploadModalProps {
+  isOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  orderId: string;
+}

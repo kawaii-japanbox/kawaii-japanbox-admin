@@ -9,6 +9,7 @@ import {
   DeliveryStatus,
   PaymentStatus,
 } from "../components/OrderManagement/data";
+import { IGetCustomersRequest } from "../components/CustomerManagement/data";
 
 const API = axios.create({
   baseURL: `${process.env.REACT_APP_BASE_URL}/api`,
@@ -42,6 +43,15 @@ export const login = async (
 export const getUsers = async (currentPage: number) => {
   const response = await API.get("/admin/users", {
     params: { page: currentPage },
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export const getCustomers = async (data: IGetCustomersRequest) => {
+  const { page, search } = data;
+  const response = await API.get("/admin/customers", {
+    params: { page, search: search || undefined },
     withCredentials: true,
   });
   return response.data;

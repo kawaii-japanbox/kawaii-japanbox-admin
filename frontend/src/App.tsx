@@ -14,6 +14,8 @@ import { AuthProvider } from "./hooks/useAuth";
 import UserDashboardPage from "./components/UserManagement/UserDashboardPage";
 import OrderDashboardPage from "./components/OrderManagement/OrderDashboardPage";
 import RoleProtectedRoute from "./RoleProtectedRoute";
+import CustomerDashboardPage from "./components/CustomerManagement/CustomerDashboardPage";
+import Profile from "./components/CustomerManagement/Profile";
 
 const App: React.FC = () => {
   return (
@@ -39,7 +41,16 @@ const App: React.FC = () => {
                 <OrderDashboardPage />
               </RoleProtectedRoute>
             }
+          />
+          <Route
+            path="/customers"
+            element={
+              <RoleProtectedRoute page="customers">
+                <CustomerDashboardPage />
+              </RoleProtectedRoute>
+            }
           ></Route>
+          <Route path="/customer" element={<Profile />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
         </Routes>
       </AuthProvider>

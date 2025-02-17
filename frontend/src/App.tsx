@@ -15,7 +15,7 @@ import UserDashboardPage from "./components/UserManagement/UserDashboardPage";
 import OrderDashboardPage from "./components/OrderManagement/OrderDashboardPage";
 import RoleProtectedRoute from "./RoleProtectedRoute";
 import CustomerDashboardPage from "./components/CustomerManagement/CustomerDashboardPage";
-import Profile from "./components/CustomerManagement/Profile";
+import CustomerProfile from "./components/CustomerManagement/CustomerProfile";
 
 const App: React.FC = () => {
   return (
@@ -50,7 +50,7 @@ const App: React.FC = () => {
               </RoleProtectedRoute>
             }
           ></Route>
-          <Route path="/customer" element={<Profile />} />
+          <Route path="/customers/:id" element={<CustomerProfile />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
         </Routes>
       </AuthProvider>

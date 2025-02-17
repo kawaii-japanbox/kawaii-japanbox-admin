@@ -312,7 +312,11 @@ const OrderDashboardPage = () => {
                   </tr>
                 ))
               ) : (
-                <Spinner />
+                <tr>
+                  <td colSpan={8} className="py-6 text-center">
+                    <Spinner />
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>

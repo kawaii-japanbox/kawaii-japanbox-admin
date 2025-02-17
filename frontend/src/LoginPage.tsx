@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "./hooks/useAuth";
 
 const LoginPage: React.FC = () => {

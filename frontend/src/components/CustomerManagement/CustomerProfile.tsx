@@ -216,6 +216,7 @@ const CustomerProfile: React.FC = () => {
                                   <td className="py-2 px-3">
                                     {item.product.name}
                                   </td>
+                                  <td className="py-2 px-3">{item.quantity}</td>
                                   <td className="py-2 px-3">{item.price}</td>
                                   <td className="py-2 px-3">{item.currency}</td>
                                   <td className="py-2 px-3">

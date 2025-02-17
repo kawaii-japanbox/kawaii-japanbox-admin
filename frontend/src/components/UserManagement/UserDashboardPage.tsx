@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { PencilIcon, TrashIcon, PlusIcon } from "@heroicons/react/24/solid";
 import { IUserResponse } from "./interface";
 import { deleteUser, getUsers } from "../../api/api";
-import ConfirmationModal from "./ConfirmationModal"; // import the modal component
+import ConfirmationModal from "./ConfirmationModal";
 import UserForm from "./UserForm";
 import { roleColors } from "./data";
 import Pagination from "../../Pagination";
-import "@fontsource/inter"; // Defaults to weight 400
+import "@fontsource/inter";
 import { formatDate } from "../../utils/helpers";
 import Layout from "../../Layout";
-// import "@fontsource/inter/variable.css";
 
 const UserDashboardPage = () => {
   const [users, setUsers] = useState<IUserResponse[] | null>(null);

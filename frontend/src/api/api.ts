@@ -121,4 +121,9 @@ export const getCustomerOrders = async (customerId: string, page: number) => {
   });
   return response.data;
 };
+
+export const getCustomerOrderAnalytics = async (customerId: string) => {
+  const response = await API.get(`/admin/customers/${customerId}/analytics`);
+  return response.data;
+};
 export default API;

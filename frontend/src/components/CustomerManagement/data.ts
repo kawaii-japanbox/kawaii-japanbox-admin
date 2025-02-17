@@ -46,3 +46,14 @@ export interface IGetCustomerOrdersResponse {
     createdAt: string;
   }[];
 }
+
+export interface IGetOrderAnalytics {
+  ordersMadeCount: number;
+  ordersMadePercentage: number;
+  ordersInProgressCount: number;
+  ordersInProgressPercentage: number;
+  favoriteProductsCount: number;
+  favoriteProductsPercentage: number;
+  orderedProductsCount: number;
+  orderedProductsPercentage: number;
+}

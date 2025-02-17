@@ -109,4 +109,16 @@ export const editOrderStatus = async (
     deliveryStatus,
   });
 };
+
+export const getCustomerDetails = async (customerId: string) => {
+  const response = await API.get(`/admin/customers/${customerId}`);
+  return response.data;
+};
+
+export const getCustomerOrders = async (customerId: string, page: number) => {
+  const response = await API.get(`/admin/customers/${customerId}/orders`, {
+    params: { page },
+  });
+  return response.data;
+};
 export default API;

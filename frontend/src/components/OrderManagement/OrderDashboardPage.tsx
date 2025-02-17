@@ -222,7 +222,7 @@ const OrderDashboardPage = () => {
                   ORDER ID
                 </th>
                 <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
-                  NAME{" "}
+                  NAME
                   <button onClick={() => toggleSort("name")} className="ml-2">
                     {sortBy === "name" ? (
                       sortOrder === "asc" ? (

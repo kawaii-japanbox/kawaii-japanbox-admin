@@ -4,10 +4,15 @@ import Layout from "../../Layout";
 import Pagination from "../../Pagination";
 import { formatDate } from "../../utils/helpers";
 import { useEffect, useState } from "react";
-import { getCustomerDetails, getCustomerOrders } from "../../api/api";
+import {
+  getCustomerDetails,
+  getCustomerOrderAnalytics,
+  getCustomerOrders,
+} from "../../api/api";
 import {
   IGetCustomerDetailsResponse,
   IGetCustomerOrdersResponse,
+  IGetOrderAnalytics,
 } from "./data";
 import Spinner from "../../Spinner";
 import React from "react";
@@ -21,6 +26,7 @@ const CustomerProfile: React.FC = () => {
   const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pages, setPages] = useState<number>(0);
+  const [analytics, setAnalytics] = useState<IGetOrderAnalytics | null>(null);
 
   const toggleRow = (id: string) => {
     setExpandedRows((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -36,6 +42,11 @@ const CustomerProfile: React.FC = () => {
     setCustomerDetails(customerInfo);
   };
 
+  const fetchCustomerOrderAnalytics = async () => {
+    const orderAnalytics = await getCustomerOrderAnalytics(id!);
+    setAnalytics(orderAnalytics);
+  };
+
   const fetchCustomerOrders = async () => {
     const response = await getCustomerOrders(id!, currentPage);
     setCustomerOrders(response.orders.orders);
@@ -45,6 +56,7 @@ const CustomerProfile: React.FC = () => {
   useEffect(() => {
     fetchCustomerDetails();
     fetchCustomerOrders();
+    fetchCustomerOrderAnalytics();
   }, [currentPage]);
 
   return (
@@ -55,48 +67,114 @@ const CustomerProfile: React.FC = () => {
           <h1 className=" text-2xl font-medium font-inter">General Overview</h1>
         </div>
         {/* Boxes Section */}
-        <div className="flex flex-wrap gap-6 p-6">
-          <div className=" text-gray-400 rounded-lg p-6 flex-1  shadow-md">
-            <div className="flex items-center justify-between">
-              <div className="flex flex-col justify-start">
-                <Truck />
-                <p className="text-medium mt-2">Orders made</p>
-                <p className="text-black text-2xl font-bold mb-2">123</p>
-                <p className="text-sm">7% vs last month</p>
+        {analytics ? (
+          <div className="flex flex-wrap gap-6 p-6">
+            <div className=" text-gray-400 rounded-lg p-6 flex-1  shadow-md">
+              <div className="flex items-center justify-between">
+                <div className="flex flex-col justify-start">
+                  <Truck />
+                  <p className="text-medium mt-2">Orders made</p>
+                  <p className="text-black text-2xl font-bold mb-2">
+                    {analytics.orderedProductsCount}
+                  </p>
+                  <p className="text-sm">
+                    <span
+                      className={
+                        isPositive(analytics.ordersMadePercentage)
+                          ? "text-green-500"
+                          : "text-red-500"
+                      }
+                    >
+                      {isPositive(analytics.ordersMadePercentage) ? "↑" : "↓"}
+                      {Math.abs(analytics.ordersMadePercentage)}%
+                    </span>
+                    <span className="text-gray-500 ml-1">vs last month</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="text-gray-400 rounded-lg p-6 flex-1 shadow-md">
+              <div className="flex items-center justify-between">
+                <div className="flex flex-col justify-start">
+                  <Star />
+                  <h2 className="text-medium mt-2">Orders in-progress</h2>
+                  <p className="text-black text-2xl font-bold mb-2">
+                    {analytics.ordersInProgressCount}
+                  </p>
+                  <p className="text-sm">
+                    <span
+                      className={
+                        isPositive(analytics.ordersInProgressPercentage)
+                          ? "text-green-500"
+                          : "text-red-500"
+                      }
+                    >
+                      {isPositive(analytics.ordersInProgressPercentage)
+                        ? "↑"
+                        : "↓"}
+                      {Math.abs(analytics.ordersInProgressPercentage)}%
+                    </span>
+                    <span className="text-gray-500 ml-1">vs last month</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="text-gray-400 rounded-lg p-6 flex-1 shadow-md">
+              <div className="flex items-center justify-between">
+                <div className="flex flex-col justify-start">
+                  <Heart />
+                  <h2 className="text-medium mt-2">Favorite products</h2>
+                  <p className="text-black text-2xl font-bold mb-2">
+                    {analytics.favoriteProductsCount}
+                  </p>
+                  <p className="text-sm">
+                    <span
+                      className={
+                        isPositive(analytics.favoriteProductsPercentage)
+                          ? "text-green-500"
+                          : "text-red-500"
+                      }
+                    >
+                      {isPositive(analytics.favoriteProductsPercentage)
+                        ? "↑"
+                        : "↓"}
+                      {Math.abs(analytics.favoriteProductsPercentage)}%
+                    </span>
+                    <span className="text-gray-500 ml-1">vs last month</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="text-gray-400 rounded-lg p-6 flex-1 shadow-md">
+              <div className="flex items-center justify-between">
+                <div className="flex flex-col justify-start">
+                  <Undo2 />
+                  <h2 className="text-medium mt-2">Ordered products</h2>
+                  <p className="text-black text-2xl font-bold mb-2">
+                    {analytics.orderedProductsCount}
+                  </p>
+                  <p className="text-sm">
+                    <span
+                      className={
+                        isPositive(analytics.orderedProductsPercentage)
+                          ? "text-green-500"
+                          : "text-red-500"
+                      }
+                    >
+                      {isPositive(analytics.orderedProductsPercentage)
+                        ? "↑"
+                        : "↓"}
+                      {Math.abs(analytics.orderedProductsPercentage)}%
+                    </span>
+                    <span className="text-gray-500 ml-1">vs last month</span>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-          <div className="text-gray-400 rounded-lg p-6 flex-1 shadow-md">
-            <div className="flex items-center justify-between">
-              <div className="flex flex-col justify-start">
-                <Star />
-                <h2 className="text-medium mt-2">Reviews added</h2>
-                <p className="text-black text-2xl font-bold mb-2">26</p>
-                <p className="text-sm">8.8% vs last month</p>
-              </div>
-            </div>
-          </div>
-          <div className="text-gray-400 rounded-lg p-6 flex-1 shadow-md">
-            <div className="flex items-center justify-between">
-              <div className="flex flex-col justify-start">
-                <Heart />
-                <h2 className="text-medium mt-2">Favorite products</h2>
-                <p className="text-black text-2xl font-bold mb-2">9</p>
-                <p className="text-sm">2.5% vs last month</p>
-              </div>
-            </div>
-          </div>
-          <div className="text-gray-400 rounded-lg p-6 flex-1 shadow-md">
-            <div className="flex items-center justify-between">
-              <div className="flex flex-col justify-start">
-                <Undo2 />
-                <h2 className="text-medium mt-2">Product returns</h2>
-                <p className="text-black text-2xl font-bold mb-2">4</p>
-                <p className="text-sm">5.6% vs last month</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        ) : (
+          <Spinner />
+        )}
         {/* Customer Details Section*/}
         <div className="flex flex-wrap gap-6 p-6">
           <div className="text-black rounded-lg p-6 flex-1 shadow-md">
@@ -260,4 +338,7 @@ const CustomerProfile: React.FC = () => {
   );
 };
 
+const isPositive = (percentage: number) => {
+  return percentage >= 0;
+};
 export default CustomerProfile;

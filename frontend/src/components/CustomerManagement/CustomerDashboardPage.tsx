@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { deleteUser, getCustomers, getUsers } from "../../api/api";
+import { deleteUser, getCustomers } from "../../api/api";
 import Pagination from "../../Pagination";
-import "@fontsource/inter"; // Defaults to weight 400
+import "@fontsource/inter";
 import { formatDate } from "../../utils/helpers";
 import Layout from "../../Layout";
 import { IGetCustomersResponse } from "./data";
 import { Link } from "react-router-dom";
-// import "@fontsource/inter/variable.css";
 
 const CustomerDashboardPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -137,7 +136,10 @@ const CustomerDashboardPage = () => {
             <tbody>
               {customers?.map((customer) => (
                 <tr key={customer.id} className="hover:bg-gray-50 border-t">
-                  <Link to="/customer">
+                  <Link
+                    to={`/customers/${customer.id}`}
+                    state={{ id: customer.id }}
+                  >
                     <td className="py-4 px-6 font-inter font-light text-sm text-gray-800">
                       {customer.name}
                     </td>

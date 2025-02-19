@@ -13,11 +13,27 @@ export const rolePermissions: Record<Role, string[]> = {
   ],
   SALES: ["dashboard", "customers", "orders", "products"],
   DELIVERY: ["dashboard", "orders"],
+  SUPER_ADMIN: [
+    "dashboard",
+    "users",
+    "customers",
+    "orders",
+    "notifications",
+    "analytics",
+    "products",
+  ],
+  MERCHANDISER: ["dashboard"],
 };
 
-export type Role = "ADMIN" | "SALES" | "DELIVERY";
+export type Role =
+  | "ADMIN"
+  | "SALES"
+  | "DELIVERY"
+  | "SUPER_ADMIN"
+  | "MERCHANDISER";
 
 export type SidebarKey =
+  | "home"
   | "users"
   | "customers"
   | "orders"
@@ -26,6 +42,7 @@ export type SidebarKey =
   | "products";
 
 export const sidebarItems: Record<SidebarKey, string> = {
+  home: "Home",
   users: "Users",
   customers: "Customers",
   orders: "Orders",

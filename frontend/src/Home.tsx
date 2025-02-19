@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useAuth } from "./hooks/useAuth";
 import Layout from "./Layout";
 
-const Dashboard: React.FC = () => {
+const Home: React.FC = () => {
   const { user } = useAuth();
   if (!user) {
     return <div>Loading...</div>;
@@ -35,4 +35,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default Home;

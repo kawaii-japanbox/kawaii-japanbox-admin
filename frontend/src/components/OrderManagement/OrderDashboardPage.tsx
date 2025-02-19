@@ -334,7 +334,7 @@ const OrderDashboardPage = () => {
         <div className="flex justify-center mt-6">
           <Pagination
             page={currentPage}
-            pages={1}
+            pages={pages}
             onPageChange={handlePageChange}
           />
         </div>

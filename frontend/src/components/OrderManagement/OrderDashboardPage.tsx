@@ -55,8 +55,8 @@ const OrderDashboardPage = () => {
           sortOrder,
         });
         setOrders(response.orders || []);
-        setCurrentPage(response.pages);
-        setPages(response.total);
+        setCurrentPage(response.page);
+        setPages(response.pages);
       } catch (error) {
         console.error("Error fetching orders:", error);
       }

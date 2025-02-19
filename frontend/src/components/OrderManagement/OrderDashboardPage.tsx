@@ -63,7 +63,7 @@ const OrderDashboardPage = () => {
     };
 
     fetchOrders();
-  }, [filter, search, sortBy, sortOrder]);
+  }, [filter, search, sortBy, sortOrder, currentPage]);
 
   const toggleSort = (column: string) => {
     if (sortBy === column) {

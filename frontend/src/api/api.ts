@@ -29,7 +29,7 @@ export const login = async (
   rememberMe: boolean
 ) => {
   const response = await API.post(
-    `/auth/login`,
+    `/admin/login`,
     {
       email,
       password,

@@ -1,53 +1,57 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
 import LoginPage from "./LoginPage";
-import Dashboard from "./Dashboard";
 import {
   Navigate,
   Route,
   BrowserRouter as Router,
   Routes,
 } from "react-router-dom";
-import ProtectedRoute from "./ProtectedRoute";
 import Unauthorized from "./Unauthorized";
 import { AuthProvider } from "./hooks/useAuth";
 import UserDashboardPage from "./components/UserManagement/UserDashboardPage";
 import OrderDashboardPage from "./components/OrderManagement/OrderDashboardPage";
-import RoleProtectedRoute from "./RoleProtectedRoute";
 import CustomerDashboardPage from "./components/CustomerManagement/CustomerDashboardPage";
 import CustomerProfile from "./components/CustomerManagement/CustomerProfile";
+import Home from "./Home";
+import ProtectedRoute from "./ProtectedRoute";
 
 const App: React.FC = () => {
   return (
     <Router>
       <AuthProvider>
         <Routes>
-          <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<Dashboard />} />
-          </Route>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute page="dashboard">
+                <Home />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/login" element={<LoginPage />} />
           <Route
             path="/users"
             element={
-              <RoleProtectedRoute page="users">
+              <ProtectedRoute page="users">
                 <UserDashboardPage />
-              </RoleProtectedRoute>
+              </ProtectedRoute>
             }
           />
           <Route
             path="/orders"
             element={
-              <RoleProtectedRoute page="orders">
+              <ProtectedRoute page="orders">
                 <OrderDashboardPage />
-              </RoleProtectedRoute>
+              </ProtectedRoute>
             }
           />
           <Route
             path="/customers"
             element={
-              <RoleProtectedRoute page="customers">
+              <ProtectedRoute page="customers">
                 <CustomerDashboardPage />
-              </RoleProtectedRoute>
+              </ProtectedRoute>
             }
           ></Route>
           <Route path="/customers/:id" element={<CustomerProfile />} />

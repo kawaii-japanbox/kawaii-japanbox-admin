@@ -1,14 +1,30 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "./hooks/useAuth";
+import { Page, useAuth } from "./hooks/useAuth";
+import { JSX } from "react";
 
-const ProtectedRoute: React.FC = () => {
-  const { user } = useAuth();
+interface ProtectedRouteProps {
+  children: JSX.Element;
+  page: string;
+}
 
-  if (!user) {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, page }) => {
+  const { user, hasPermission } = useAuth();
+  const token = localStorage.getItem("token");
+
+  if (token && !user) {
+    console.log("Token exists, waiting for user state to update...");
+    return null;
+  }
+
+  if (user === null && !token) {
     return <Navigate to="/login" />;
   }
 
-  return <Outlet />;
+  if (!hasPermission(page as Page)) {
+    return <Navigate to="/unauthorized" />;
+  }
+
+  return children;
 };
 
 export default ProtectedRoute;

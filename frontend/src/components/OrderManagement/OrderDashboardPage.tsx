@@ -45,24 +45,25 @@ const OrderDashboardPage = () => {
     setTimeframe(event.target.value);
   };
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await getOrders({
-          filter,
-          search,
-          sortBy,
-          sortOrder,
-        });
-        setOrders(response.orders || []);
-        setCurrentPage(response.page);
-        setPages(response.pages);
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-      }
-    };
+  const fetchOrders = async (currentPage: number) => {
+    try {
+      const response = await getOrders({
+        filter,
+        search,
+        sortBy,
+        sortOrder,
+        page: currentPage,
+      });
+      setOrders(response.orders || []);
+      setCurrentPage(response.page);
+      setPages(response.pages);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
 
-    fetchOrders();
+  useEffect(() => {
+    fetchOrders(currentPage);
   }, [filter, search, sortBy, sortOrder, currentPage]);
 
   const toggleSort = (column: string) => {

@@ -30,6 +30,7 @@ export interface IGetOrderForm {
   search: string;
   sortBy: string;
   sortOrder: string;
+  page: number;
 }
 
 export interface PhotoUploadModalProps {

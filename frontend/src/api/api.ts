@@ -78,13 +78,14 @@ export const deleteUser = async (userId: string) => {
 };
 
 export const getOrders = async (data: IGetOrderForm) => {
-  const { filter, search, sortBy, sortOrder } = data;
+  const { filter, search, sortBy, sortOrder, page } = data;
   const response = await API.get("/admin/orders", {
     params: {
       status: filter !== "All" ? filter : undefined,
       search: search || undefined,
       sortBy,
       sortOrder,
+      page,
     },
   });
   return response.data;

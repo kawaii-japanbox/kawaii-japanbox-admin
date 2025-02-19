@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { login } from "../api/api";
 import { rolePermissions, Role } from "../Sidebar";
+import axios from "axios";
 
 export type Page =
   | "dashboard"
@@ -15,6 +16,7 @@ export type Page =
 interface DecodedToken {
   userId: string;
   role: string;
+  exp?: number;
 }
 
 interface User {
@@ -40,12 +42,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode<DecodedToken>(token);
+        const expirationTime = decoded.exp;
+        if (expirationTime && expirationTime * 1000 < Date.now()) {
+          console.log("Token expired, logging out...");
+          logout();
+        } else {
+          setUser({ userId: decoded.userId, role: decoded.role as Role });
+        }
+      } catch (error) {
+        console.error("Invalid token, logging out...");
+        logout();
+      }
     }
+    setLoading(false);
   }, []);
 
   const loginUser = async (
@@ -57,17 +73,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const response = await login(email, password, rememberMe);
       const decoded = jwtDecode<DecodedToken>(response.accessToken);
       setUser({ userId: decoded.userId, role: decoded.role as Role });
-      localStorage.setItem("user", JSON.stringify(response));
+      console.log(response.accessToken);
+      // localStorage.setItem("user", JSON.stringify(response));
       localStorage.setItem("token", response.accessToken);
       navigate("/");
-    } catch (err) {
-      console.error("Login failed:", err);
+    } catch (error: unknown) {
+      console.error("Login failed:", error);
+      if (axios.isAxiosError(error) && error.response) {
+        throw new Error(error.response.data.message || "Login failed");
+      }
+      throw new Error("Something went wrong");
     }
   };
 
   const logout = () => {
+    console.log("Logging out, clearing localStorage.");
     setUser(null);
-    localStorage.removeItem("user");
+    localStorage.removeItem("token"); // Check if this is running unexpectedly
     navigate("/login");
   };
 

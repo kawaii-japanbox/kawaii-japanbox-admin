@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
 import LoginPage from "./LoginPage";
-import {
-  Navigate,
-  Route,
-  BrowserRouter as Router,
-  Routes,
-} from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Unauthorized from "./Unauthorized";
 import { AuthProvider } from "./hooks/useAuth";
 import UserDashboardPage from "./components/UserManagement/UserDashboardPage";

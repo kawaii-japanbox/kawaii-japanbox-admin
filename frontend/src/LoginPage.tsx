@@ -5,14 +5,21 @@ const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
   const { loginUser } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await loginUser(email, password, rememberMe);
-    } catch (err) {
+    } catch (err: unknown) {
       console.error("Login failed:", err);
+      if (err instanceof Error) {
+        console.log(err);
+        setError(err.message);
+      } else {
+        setError("An unexpected error occurred.");
+      }
     }
   };
 
@@ -22,7 +29,11 @@ const LoginPage: React.FC = () => {
         <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
           Login
         </h2>
-
+        {error && (
+          <p className="text-red-600 bg-red-100 p-2 rounded mb-4 text-center max-w-full break-words whitespace-pre-line">
+            {error}
+          </p>
+        )}
         <form action="submit" method="POST" onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
@@ -93,7 +104,7 @@ const LoginPage: React.FC = () => {
           </p>
 
           <p className="text-sm text-center text-gray-500 mt-4">
-            Don't have an account?{" "}
+            Don't have an account?
             <a href="#" className="text-blue-600 hover:underline">
               Sign up
             </a>

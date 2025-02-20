@@ -4,7 +4,12 @@ import {
   IUpdateUserForm,
 } from "../components/UserManagement/interface";
 import { Role } from "../components/UserManagement/data";
-import { IGetOrderForm } from "../components/OrderManagement/interface";
+import {
+  IDeleteOrderImageRequest,
+  IGetOrderForm,
+  IUploadPhotoRequest,
+  IUploadPhotoResponse,
+} from "../components/OrderManagement/interface";
 import {
   DeliveryStatus,
   PaymentStatus,
@@ -91,11 +96,22 @@ export const getOrders = async (data: IGetOrderForm) => {
   return response.data;
 };
 
-export const uploadFiles = async (orderId: string, formData: FormData) => {
-  const response = await API.post(`/admin/order/upload/${orderId}`, formData, {
+export const uploadFiles = async (
+  data: IUploadPhotoRequest
+): Promise<IUploadPhotoResponse> => {
+  const { orderId, formData } = data;
+  const response = await API.post(`/admin/order-images/${orderId}`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
+  });
+  return response.data;
+};
+
+export const deleteUploadedFile = async (data: IDeleteOrderImageRequest) => {
+  const { imageId, url } = data;
+  const response = await API.delete(`/admin/order-images/${imageId}`, {
+    params: { url },
   });
   return response.data;
 };

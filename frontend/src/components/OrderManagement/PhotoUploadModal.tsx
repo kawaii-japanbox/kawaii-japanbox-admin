@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDropzone, FileWithPath } from "react-dropzone";
-import { CloudArrowUpIcon } from "@heroicons/react/24/solid";
-import { uploadFiles } from "../../api/api";
-import { PhotoUploadModalProps } from "./interface";
+import {
+  CloudArrowUpIcon,
+  TrashIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/solid";
+import { deleteUploadedFile, uploadFiles } from "../../api/api";
+import { PhotoUploadModalProps, Image } from "./interface";
 
 const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({
   isOpen,
@@ -11,12 +15,32 @@ const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({
 }) => {
   const [files, setFiles] = useState<FileWithPath[]>([]);
   const [uploadMessage, setUploadMessage] = useState<string>("");
+  const [uploadedImages, setUploadedImages] = useState<Image[]>([]);
+
+  useEffect(() => {
+    if (orderId) {
+      setFiles([]);
+      setUploadMessage("");
+      setUploadedImages([]);
+    }
+  }, [orderId, isOpen]);
+
   const handleCloseModal = () => setIsModalOpen(false);
 
   const onDrop = (acceptedFiles: FileWithPath[]) => {
     setFiles(acceptedFiles);
   };
 
+  const handleDeleteUploaded = async (id: string, url: string) => {
+    try {
+      await deleteUploadedFile({ imageId: id, url });
+      setUploadedImages((prevImages) =>
+        prevImages.filter((img) => img.id !== id)
+      );
+    } catch (error) {
+      console.error("Error deleting uploaded file", error);
+    }
+  };
   const handleUpload = async () => {
     if (files.length === 0) {
       setUploadMessage("Please select files to upload.");
@@ -29,10 +53,10 @@ const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({
     });
 
     try {
-      const response = await uploadFiles(orderId, formData);
-      setUploadMessage(
-        `Files uploaded successfully: ${response.files.count} files`
-      );
+      const response = await uploadFiles({ orderId, formData });
+      setUploadMessage(`Files uploaded successfully: ${response.count} files`);
+      setUploadedImages((prev) => [...prev, ...response.images]);
+      setFiles([]);
     } catch (error) {
       setUploadMessage("Error uploading files.");
       console.error(error);
@@ -52,14 +76,14 @@ const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({
         isOpen ? "block" : "hidden"
       }`}
     >
-      <div className="bg-white p-8 rounded-lg w-96">
+      <div className="bg-white p-8 rounded-lg w-96 font-inter">
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-semibold">Upload Photos</h2>
+          <h2 className="text-xl font-medium">Upload Photos</h2>
           <button
             onClick={handleCloseModal}
             className="text-gray-500 hover:text-gray-700"
           >
-            X
+            <XMarkIcon className="w-6 h-6" />
           </button>
         </div>
         <div className="mt-4">
@@ -87,7 +111,7 @@ const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({
             </ul>
           </div>
         </div>
-        <div className="flex justify-end mt-4">
+        <div className="flex justify-end mt-4 font-inter">
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
             onClick={handleUpload}
@@ -96,6 +120,28 @@ const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({
           </button>
         </div>
         {uploadMessage && <p className="mt-4 text-center">{uploadMessage}</p>}
+        {/* Uploaded images gallery */}
+        {uploadedImages.length > 0 && (
+          <div className="mt-6">
+            <div className="grid grid-cols-3 gap-2">
+              {uploadedImages.map((img, index) => (
+                <div key={img.id} className="relative group">
+                  <img
+                    src={img.url}
+                    alt={`Uploaded ${img.id}`}
+                    className="w-full h-24 object-cover rounded-md"
+                  />
+                  <button
+                    onClick={() => handleDeleteUploaded(img.id, img.url)}
+                    className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-75 hover:opacity-100"
+                  >
+                    <TrashIcon className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

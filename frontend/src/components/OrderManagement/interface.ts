@@ -43,3 +43,24 @@ export type ModalState = {
   paymentStatus: PaymentStatus;
   deliveryStatus: DeliveryStatus;
 };
+
+export interface IUploadPhotoRequest {
+  orderId: string;
+  formData: FormData;
+}
+
+export interface IUploadPhotoResponse {
+  count: number;
+  images: Image[];
+  message: string;
+}
+
+export interface Image {
+  id: string;
+  url: string;
+}
+
+export interface IDeleteOrderImageRequest {
+  imageId: string;
+  url: string;
+}

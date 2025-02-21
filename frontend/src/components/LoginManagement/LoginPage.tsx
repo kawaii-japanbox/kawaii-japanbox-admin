@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
+import { Link } from "react-router-dom";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -25,7 +26,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="bg-gray-100 flex items-center justify-center min-h-screen">
-      <div className="bg-white shadow-lg rounded-lg p-8 max-w-sm w-full">
+      <div className="bg-white shadow-lg rounded-lg p-8 max-w-sm w-full font-inter">
         <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
           Login
         </h2>
@@ -97,18 +98,11 @@ const LoginPage: React.FC = () => {
             Login
           </button>
 
-          <p className="text-sm text-center text-gray-500 mt-4">
-            <a href="#" className="text-blue-600 hover:underline">
+          <Link to="/forgot-password">
+            <p className="text-sm text-center text-blue-600 mt-4 hover:underline hover:text-blue-600 transition">
               Forgot your password?
-            </a>
-          </p>
-
-          <p className="text-sm text-center text-gray-500 mt-4">
-            Don't have an account?
-            <a href="#" className="text-blue-600 hover:underline">
-              Sign up
-            </a>
-          </p>
+            </p>
+          </Link>
         </form>
       </div>
     </div>

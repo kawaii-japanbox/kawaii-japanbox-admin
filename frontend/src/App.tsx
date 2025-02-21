@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./index.css";
 import LoginPage from "./components/LoginManagement/LoginPage";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Unauthorized from "./Unauthorized";
+import Unauthorized from "./components/LoginManagement/Unauthorized";
 import { AuthProvider } from "./hooks/useAuth";
 import UserDashboardPage from "./components/UserManagement/UserDashboardPage";
 import OrderDashboardPage from "./components/OrderManagement/OrderDashboardPage";
@@ -10,6 +10,9 @@ import CustomerDashboardPage from "./components/CustomerManagement/CustomerDashb
 import CustomerProfile from "./components/CustomerManagement/CustomerProfile";
 import Home from "./Home";
 import ProtectedRoute from "./ProtectedRoute";
+import ForgotPassword from "./components/LoginManagement/ForgotPasswordPage";
+import VerificationCodePage from "./components/LoginManagement/VerificationCodePage";
+import ResetPasswordPage from "./components/LoginManagement/ResetPasswordPage";
 
 const App: React.FC = () => {
   return (
@@ -24,6 +27,9 @@ const App: React.FC = () => {
               </ProtectedRoute>
             }
           />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/verification" element={<VerificationCodePage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route
             path="/users"

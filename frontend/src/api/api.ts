@@ -15,6 +15,10 @@ import {
   PaymentStatus,
 } from "../components/OrderManagement/data";
 import { IGetCustomersRequest } from "../components/CustomerManagement/data";
+import {
+  IResetPasswordRequest,
+  IVerifyCodeRequest,
+} from "../components/LoginManagement/interface";
 
 const API = axios.create({
   baseURL: `${process.env.REACT_APP_BASE_URL}/api`,
@@ -141,6 +145,32 @@ export const getCustomerOrders = async (customerId: string, page: number) => {
 
 export const getCustomerOrderAnalytics = async (customerId: string) => {
   const response = await API.get(`/admin/customers/${customerId}/analytics`);
+  return response.data;
+};
+
+export const forgotPassword = async (email: string) => {
+  const response = await API.post("/auth/forgot-password", {
+    email,
+  });
+  return response.data;
+};
+
+export const verifyOtp = async (data: IVerifyCodeRequest) => {
+  const { email, otp, action } = data;
+  const response = await API.post("/auth/verify-otp", {
+    email,
+    otp,
+    action,
+  });
+  return response.data;
+};
+
+export const resetPassword = async (data: IResetPasswordRequest) => {
+  const { email, newPassword } = data;
+  const response = await API.post("/auth/reset-password", {
+    email,
+    newPassword,
+  });
   return response.data;
 };
 export default API;

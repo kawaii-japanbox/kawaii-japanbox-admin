@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
-import LoginPage from "./LoginPage";
+import LoginPage from "./components/LoginManagement/LoginPage";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Unauthorized from "./Unauthorized";
 import { AuthProvider } from "./hooks/useAuth";

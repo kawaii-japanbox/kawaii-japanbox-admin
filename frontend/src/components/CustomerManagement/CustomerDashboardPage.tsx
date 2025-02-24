@@ -27,7 +27,6 @@ const CustomerDashboardPage = () => {
         page: page,
         search,
       });
-      console.log(data);
       setTotalCount(total);
       setCustomers(data);
       setPages(pages);
@@ -165,7 +164,7 @@ const CustomerDashboardPage = () => {
           <Pagination
             page={currentPage}
             pages={pages}
-            onPageChange={(newPage) => handlePageChange(newPage)}
+            onPageChange={handlePageChange}
           />
         </div>
       </div>

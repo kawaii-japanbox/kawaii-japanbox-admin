@@ -59,7 +59,7 @@ const ForgotPasswordPage = () => {
           >
             Reset password
           </button>
-          <Link to="/forgot-password">
+          <Link to="/login">
             <p className="text-sm text-center text-blue-600 mt-4 hover:underline hover:text-blue-600 transition">
               Go back to Login
             </p>

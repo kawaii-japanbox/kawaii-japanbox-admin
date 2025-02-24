@@ -173,4 +173,11 @@ export const resetPassword = async (data: IResetPasswordRequest) => {
   });
   return response.data;
 };
+
+export const getOrdersAnalytics = async (filter: string) => {
+  const response = await API.get("/admin/orders/analytics", {
+    params: { filter },
+  });
+  return response.data;
+};
 export default API;

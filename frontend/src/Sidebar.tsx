@@ -1,5 +1,27 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
+import {
+  BellDot,
+  ChartNoAxesCombined,
+  House,
+  LogOut,
+  ScanBarcode,
+  Settings,
+  ShoppingBasket,
+  ShoppingCart,
+  User,
+} from "lucide-react";
+import { JSX } from "react";
+
+const icons: Record<string, JSX.Element> = {
+  home: <House />,
+  users: <User />,
+  orders: <ShoppingCart />,
+  customers: <ScanBarcode />,
+  notifications: <BellDot />,
+  analytics: <ChartNoAxesCombined />,
+  products: <ShoppingBasket />,
+};
 
 export const rolePermissions: Record<Role, string[]> = {
   ADMIN: [
@@ -52,7 +74,7 @@ export const sidebarItems: Record<SidebarKey, string> = {
 };
 
 const Sidebar: React.FC = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   if (!user) {
     return;
   }
@@ -69,15 +91,16 @@ const Sidebar: React.FC = () => {
       </div>
       <nav className="mt-4">
         <ul>
-          <li key="home">
-            <Link
-              to="/"
-              className="block py-2.5 px-4 rounded hover:bg-gray-700"
-            >
+          <li
+            key="home"
+            className="flex items-center space-x-2 py-2.5 px-4 rounded hover:bg-gray-700"
+          >
+            <House />
+            <Link to="/" className="block">
               Home
             </Link>
           </li>
-          {allowedItems.map((itemKey) => (
+          {/* {allowedItems.map((itemKey) => (
             <li key={itemKey}>
               <Link
                 to={`/${itemKey}`}
@@ -88,9 +111,30 @@ const Sidebar: React.FC = () => {
                   : itemKey}
               </Link>
             </li>
+          ))} */}
+          {allowedItems.map((itemKey) => (
+            <li
+              key={itemKey}
+              className="flex items-center space-x-2 py-2.5 px-4 rounded hover:bg-gray-700"
+            >
+              {icons[itemKey] || <span className="w-5" />}{" "}
+              <Link to={`/${itemKey}`} className="block">
+                {sidebarItems[itemKey as keyof typeof sidebarItems] || itemKey}
+              </Link>
+            </li>
           ))}
         </ul>
       </nav>
+      {/* Logout Button */}
+      <div className="p-4 border-t border-gray-700">
+        <button
+          onClick={logout}
+          className="flex items-center w-full text-left py-2.5 px-4 rounded hover:bg-red-600 transition"
+        >
+          <LogOut className="mr-2" />
+          Logout
+        </button>
+      </div>
     </aside>
   );
 };

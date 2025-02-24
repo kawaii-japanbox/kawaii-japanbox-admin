@@ -40,7 +40,7 @@ const OrderDashboardPage = () => {
     setCurrentPage(page);
   };
 
-  const fetchOrders = async (currentPage: number) => {
+  const fetchOrders = async () => {
     try {
       const response = await getOrders({
         filter,
@@ -58,7 +58,7 @@ const OrderDashboardPage = () => {
   };
 
   useEffect(() => {
-    fetchOrders(currentPage);
+    fetchOrders();
   }, [filter, search, sortBy, sortOrder, currentPage]);
 
   const toggleSort = (column: string) => {
@@ -216,6 +216,7 @@ const OrderDashboardPage = () => {
             isModalOpen={isStatusModalOpen}
             setIsModalOpen={setIsStatusModalOpen}
             orderId={selectedOrderId}
+            fetchOrders={fetchOrders}
           />
         </div>
         <div className="flex justify-center mt-6">

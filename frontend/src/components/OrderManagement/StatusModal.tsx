@@ -8,6 +8,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
   isModalOpen,
   setIsModalOpen,
   orderId,
+  fetchOrders,
 }) => {
   const [formState, setFormState] = useState<ModalState>({
     paymentStatus: PaymentStatus.PENDING,
@@ -31,6 +32,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
         formState.paymentStatus,
         formState.deliveryStatus
       );
+      await fetchOrders();
     } catch (error) {
       console.log("Error in update order status:", error);
     }

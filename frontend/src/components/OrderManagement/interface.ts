@@ -4,6 +4,7 @@ export interface StatusModalProps {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   orderId: string;
+  fetchOrders: () => Promise<void>;
 }
 
 export interface IOrderResponse {

@@ -34,3 +34,10 @@ export const orderStatuses = [
   "RETURNED",
   "DELETED",
 ];
+
+export const orderTimePeriods = [
+  { name: "This month", value: "this_month" },
+  { name: "Last 3 months", value: "last_3_months" },
+  { name: "Last 6 months", value: "last_6_months" },
+  { name: "This year", value: "this_year" },
+];

@@ -64,3 +64,10 @@ export interface IDeleteOrderImageRequest {
   imageId: string;
   url: string;
 }
+
+export interface IGetOrdersAnalytics {
+  totalOrders: number;
+  totalProducts: number;
+  totalCustomers: number;
+  totalDelivery: number;
+}

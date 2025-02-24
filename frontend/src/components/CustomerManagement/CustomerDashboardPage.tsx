@@ -21,10 +21,10 @@ const CustomerDashboardPage = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pages, setPages] = useState<number>(0);
 
-  const fetchCustomers = async () => {
+  const fetchCustomers = async (page = 1) => {
     try {
       const { data, total, pages } = await getCustomers({
-        page: currentPage,
+        page: page,
         search,
       });
       console.log(data);
@@ -66,7 +66,7 @@ const CustomerDashboardPage = () => {
   };
 
   useEffect(() => {
-    fetchCustomers();
+    fetchCustomers(currentPage);
   }, [currentPage, searchQuery]);
 
   if (loading) {
@@ -165,7 +165,7 @@ const CustomerDashboardPage = () => {
           <Pagination
             page={currentPage}
             pages={pages}
-            onPageChange={() => handlePageChange(currentPage)}
+            onPageChange={(newPage) => handlePageChange(newPage)}
           />
         </div>
       </div>

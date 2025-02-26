@@ -20,13 +20,13 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <nav aria-label="Page navigation">
-      <ul className="flex items-center -space-x-px h-10 text-base">
+      <ul className="flex items-center -space-x-px h-8 text-base sm:h-10 text-sm sm:text-base">
         {/* Previous Button */}
         <li>
           <button
             onClick={handlePrevious}
             disabled={page === 1}
-            className={`flex items-center justify-center px-4 h-10 ms-0 leading-tight ${
+            className={`flex items-center justify-center px-2 sm:px-4 h-8 sm:h-10 leading-tight ${
               page === 1
                 ? "text-gray-400 font-inter font-light"
                 : "text-gray-500 font-inter font-light hover:text-gray-700"
@@ -41,7 +41,7 @@ const Pagination: React.FC<PaginationProps> = ({
           <li key={pageNum}>
             <button
               onClick={() => handlePageClick(pageNum)}
-              className={`flex items-center justify-center px-4 h-10 leading-tight ${
+              className={`flex items-center justify-center px-2 sm:px-4 h-8 sm:h-10 leading-tight ${
                 pageNum === page
                   ? "text-blue-600 border-blue-300 bg-blue-50"
                   : "text-gray-500 hover:text-gray-700"
@@ -57,7 +57,7 @@ const Pagination: React.FC<PaginationProps> = ({
           <button
             onClick={handleNext}
             disabled={page === pages}
-            className={`flex items-center justify-center px-4 h-10 leading-tight ${
+            className={`flex items-center justify-center px-2 sm:px-4 h-8 sm:h-10 leading-tight ${
               page === pages
                 ? "text-gray-400 font-inter font-light"
                 : "text-gray-500 font-inter font-light hover:text-gray-700"

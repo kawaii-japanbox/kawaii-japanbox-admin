@@ -79,11 +79,11 @@ const OrderDashboardPage = () => {
           <h1 className="text-lg font-inter font-medium"> Order List</h1>
         </div>
         {/* Filters and Search */}
-        <div className="flex items-center gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 mb-4 sm:mb-6">
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="p-2 border border-gray-300"
+            className="p-1 sm:p-2 text-sm sm:text-base border border-gray-300 w-full sm:w-auto"
           >
             <option value="All">All</option>
             {orderStatuses.map((status) => (
@@ -95,20 +95,20 @@ const OrderDashboardPage = () => {
           <input
             type="text"
             placeholder="Search by customer name..."
-            className="w-full px-4 py-2 rounded border border-gray-300"
+            className="w-full px-2 sm:px-4 py-1 sm:py-2 text-sm sm:text-base rounded border border-gray-300"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
         {/* User Table */}
         <div className="overflow-x-auto">
-          <table className="min-w-full border-collapse border border-gray-200">
+          <table className="min-w-full border-collapse border border-gray-200 font-inter font-light">
             <thead className="bg-gray-100">
               <tr>
-                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700  min-w-[150px]">
+                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
                   ORDER ID
                 </th>
-                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700  min-w-[150px]">
+                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
                   NAME
                   <button
                     onClick={() => toggleSort("name")}
@@ -125,19 +125,19 @@ const OrderDashboardPage = () => {
                     )}
                   </button>
                 </th>
-                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700  min-w-[150px]">
+                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
                   ORDER STATUS
                 </th>
-                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700  min-w-[150px]">
+                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
                   PAYMENT STATUS
                 </th>
-                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700  min-w-[150px]">
+                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
                   DELIVERY STATUS
                 </th>
-                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700  min-w-[150px]">
+                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
                   COMMENT
                 </th>
-                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700  min-w-[150px]">
+                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
                   CREATED
                   <button
                     onClick={() => toggleSort("createdAt")}
@@ -145,12 +145,12 @@ const OrderDashboardPage = () => {
                   >
                     {sortBy === "createdAt" ? (
                       sortOrder === "asc" ? (
-                        <ArrowUp size={14} />
+                        <ArrowUp size={16} />
                       ) : (
-                        <ArrowDown size={14} />
+                        <ArrowDown size={16} />
                       )
                     ) : (
-                      <ArrowUpDown size={14} />
+                      <ArrowUpDown size={16} />
                     )}
                   </button>
                 </th>

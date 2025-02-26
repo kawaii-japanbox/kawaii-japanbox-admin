@@ -104,16 +104,16 @@ const UserDashboardPage = () => {
             </h4>
             <button
               onClick={handleAddUser}
-              className="flex items-center bg-blue-500 text-white px-4 py-2 text-sm sm:text-base sm:px-4 sm:py-2 font-inter font-light rounded-lg hover:bg-blue-600"
+              className="flex items-center bg-blue-500 text-white px-3 py-1 text-xs sm:text-base sm:px-4 sm:py-2 font-inter font-light rounded-lg hover:bg-blue-600"
             >
-              <PlusIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-              <span className="hidden xs:inline">Add New User</span>
+              <PlusIcon className="w-3 h-3 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
+              <span className="text-xs sm:text-base">Add User</span>
             </button>
           </div>
         </div>
         {/* User Table */}
         <div className="overflow-x-auto">
-          <table className="min-w-full border-collapse border border-white-100">
+          <table className="min-w-full border-collapse border  bg-white border-white-100">
             <thead className="bg-gray-100">
               <tr>
                 <th className="py-3 px-4 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">

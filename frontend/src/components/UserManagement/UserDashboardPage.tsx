@@ -104,77 +104,74 @@ const UserDashboardPage = () => {
             </h4>
             <button
               onClick={handleAddUser}
-              className="flex items-center bg-blue-500 text-white px-4 py-2 font-inter font-light rounded-lg hover:bg-blue-600"
+              className="flex items-center bg-blue-500 text-white px-4 py-2 text-sm sm:text-base sm:px-4 sm:py-2 font-inter font-light rounded-lg hover:bg-blue-600"
             >
-              <PlusIcon className="w-5 h-5 mr-2" />
-              Add New User
+              <PlusIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+              <span className="hidden xs:inline">Add New User</span>
             </button>
           </div>
         </div>
         {/* User Table */}
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
+        <div className="overflow-x-auto">
           <table className="min-w-full border-collapse border border-white-100">
             <thead className="bg-gray-100">
               <tr>
-                <th className="py-3 px-6 text-left font-inter text-sm font-light text-[#6B7280]]">
+                <th className="py-3 px-4 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
                   NAME
                 </th>
-                <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
+                <th className="py-3 px-4 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
                   EMAIL
                 </th>
-                <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
+                <th className="hidden sm:table-cell py-3 px-6 text-left text-xs sm:text-sm font-light text-gray-700">
                   PHONE
                 </th>
-                <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
+                <th className="py-3 px-4 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
                   ROLE
                 </th>
-                <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
+                <th className="hidden sm:table-cell py-3 px-6 text-left text-xs sm:text-sm font-light text-gray-700">
                   CREATED
                 </th>
-                <th className="py-3 px-6 text-center text-sm font-medium text-gray-700"></th>
+                <th className="py-3 px-4 sm:px-6 text-center text-xs sm:text-sm font-medium text-gray-700"></th>
               </tr>
             </thead>
             <tbody>
               {users?.map((user) => (
                 <tr key={user.id} className="hover:bg-gray-50 border-t">
-                  <td className="py-4 px-6 font-inter font-light text-sm text-gray-800">
+                  <td className="py-4 px-4 sm:px-6 text-xs sm:text-sm text-gray-800">
                     {user.name}
                   </td>
-                  <td className="py-4 px-6 font-inter font-light text-sm text-gray-800">
+                  <td className="py-4 px-4 sm:px-6 text-xs sm:text-sm text-gray-800">
                     {user.email}
                   </td>
-                  <td className="py-4 px-6 font-inter font-light text-sm text-gray-800">
+                  <td className="hidden sm:table-cell py-4 px-6 text-xs sm:text-sm text-gray-800">
                     {user.phone}
                   </td>
-                  <td className="py-4 px-6 font-inter font-light text-sm">
+                  <td className="py-4 px-4 sm:px-6 text-xs sm:text-sm">
                     <span
-                      className={`px-2 py-1 rounded-full  font-inter font-light text-xs font-semibold text-white ${
+                      className={`px-2 py-1 rounded-full text-white text-xs font-semibold ${
                         roleColors[user.role] || "bg-gray-500"
                       }`}
                     >
                       {user.role}
                     </span>
                   </td>
-                  <td className="py-4 px-6 text-sm font-inter font-light text-gray-800">
+                  <td className="hidden sm:table-cell py-4 px-6 text-xs sm:text-sm text-gray-800">
                     {formatDate(user.createdAt)}
                   </td>
-                  <td className="py-4 px-6 text-center flex justify-center gap-2">
-                    {/* Edit Icon */}
+                  <td className="py-4 px-4 sm:px-6 text-center flex justify-center gap-1 sm:gap-2">
                     <button
                       onClick={() => handleEditUser(user)}
-                      className="text-blue-500 hover:text-blue-700"
+                      className="text-blue-500 hover:text-blue-700 w-6 h-6 sm:w-8 sm:h-8"
                       title="Edit User"
                     >
-                      <PencilIcon className="w-5 h-5" />
+                      <PencilIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                     </button>
-
-                    {/* Delete Icon */}
                     <button
                       onClick={() => handleDelete(user.id)}
-                      className="text-red-500 hover:text-red-700"
+                      className="text-red-500 hover:text-red-700 w-6 h-6 sm:w-8 sm:h-8"
                       title="Delete User"
                     >
-                      <TrashIcon className="w-5 h-5" />
+                      <TrashIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                     </button>
                   </td>
                 </tr>
@@ -182,7 +179,8 @@ const UserDashboardPage = () => {
             </tbody>
           </table>
         </div>
-        <div className="flex justify-center mt-6">
+
+        <div className="flex justify-center mt-6 sm:mt-6">
           <Pagination
             page={currentPage}
             pages={pages}

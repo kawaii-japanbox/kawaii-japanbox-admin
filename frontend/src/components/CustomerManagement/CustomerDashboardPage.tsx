@@ -110,8 +110,8 @@ const CustomerDashboardPage = () => {
             Search
           </button>
         </div>
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
-          <table className="min-w-full border-collapse border border-white-100">
+        <div className="overflow-x-auto">
+          <table className="min-w-full border-collapse border border-gray-100">
             <thead className="bg-gray-100">
               <tr>
                 <th className="py-3 px-6 text-left font-inter text-sm font-light text-[#6B7280]]">

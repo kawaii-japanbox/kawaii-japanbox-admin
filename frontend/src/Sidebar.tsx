@@ -73,11 +73,10 @@ export const sidebarItems: Record<SidebarKey, string> = {
   products: "Products",
 };
 
-const Sidebar: React.FC = () => {
+const Sidebar: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
   const { user, logout } = useAuth();
-  if (!user) {
-    return;
-  }
+  if (!user) return null;
+
   let allowedItems =
     rolePermissions[user.role as keyof typeof rolePermissions] || [];
   allowedItems = allowedItems.filter(
@@ -85,7 +84,7 @@ const Sidebar: React.FC = () => {
   );
 
   return (
-    <aside className="w-64 bg-gray-800 text-gray-100 h-screen">
+    <aside className="h-screen w-64 bg-gray-800 text-gray-100">
       <div className="p-4 text-lg font-semibold text-center border-b border-gray-700">
         Dashboard
       </div>
@@ -96,29 +95,17 @@ const Sidebar: React.FC = () => {
             className="flex items-center space-x-2 py-2.5 px-4 rounded hover:bg-gray-700"
           >
             <House />
-            <Link to="/" className="block">
+            <Link to="/" className="block" onClick={onClose}>
               Home
             </Link>
           </li>
-          {/* {allowedItems.map((itemKey) => (
-            <li key={itemKey}>
-              <Link
-                to={`/${itemKey}`}
-                className="block py-2.5 px-4 rounded hover:bg-gray-700"
-              >
-                {sidebarItems.hasOwnProperty(itemKey)
-                  ? sidebarItems[itemKey as keyof typeof sidebarItems]
-                  : itemKey}
-              </Link>
-            </li>
-          ))} */}
           {allowedItems.map((itemKey) => (
             <li
               key={itemKey}
               className="flex items-center space-x-2 py-2.5 px-4 rounded hover:bg-gray-700"
             >
-              {icons[itemKey] || <span className="w-5" />}{" "}
-              <Link to={`/${itemKey}`} className="block">
+              {icons[itemKey] || <span className="w-5" />}
+              <Link to={`/${itemKey}`} className="block" onClick={onClose}>
                 {sidebarItems[itemKey as keyof typeof sidebarItems] || itemKey}
               </Link>
             </li>
@@ -128,7 +115,10 @@ const Sidebar: React.FC = () => {
       {/* Logout Button */}
       <div className="p-4 border-t border-gray-700">
         <button
-          onClick={logout}
+          onClick={() => {
+            logout();
+            onClose?.(); // Close sidebar on logout
+          }}
           className="flex items-center w-full text-left py-2.5 px-4 rounded hover:bg-red-600 transition"
         >
           <LogOut className="mr-2" />

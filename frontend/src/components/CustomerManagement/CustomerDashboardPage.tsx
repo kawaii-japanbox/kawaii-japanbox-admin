@@ -95,41 +95,40 @@ const CustomerDashboardPage = () => {
           </div>
         </div>
         {/* User Table */}
-        <div className="flex items-center gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 mb-4 sm:mb-6">
           <input
             type="text"
             placeholder="Search by customer name, phone or email..."
-            className="w-full px-4 py-2 rounded border border-gray-300"
+            className="w-full px-2 sm:px-4 py-1 sm:py-2 text-sm sm:text-base rounded border border-gray-300"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
           <button
-            className="flex items-center bg-blue-500 text-white px-4 py-2 font-inter font-light rounded-lg hover:bg-blue-600"
+            className="flex items-center bg-blue-500 text-white px-3 sm:px-4 py-1 sm:py-2 text-sm sm:text-base font-inter font-light rounded-lg hover:bg-blue-600"
             onClick={handleSearch}
           >
             Search
           </button>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full border-collapse border border-gray-100">
+          <table className="min-w-full border-collapse border bg-white border-gray-100">
             <thead className="bg-gray-100">
               <tr>
-                <th className="py-3 px-6 text-left font-inter text-sm font-light text-[#6B7280]]">
+                <th className="py-3 px-6 text-left font-inter text-sm font-light text-gray-700">
                   NAME
                 </th>
-                <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
+                <th className="py-3 px-6 text-left text-sm font-light ">
                   EMAIL
                 </th>
-                <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
+                <th className="py-3 px-6 text-left text-sm font-light">
                   PHONE
                 </th>
-                <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
+                <th className="py-3 px-6 text-left text-sm font-light">
                   SOURCE
                 </th>
-                <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
+                <th className="py-3 px-6 text-left text-sm font-light">
                   CREATED
                 </th>
-                <th className="py-3 px-6 text-center text-sm font-medium text-gray-700"></th>
               </tr>
             </thead>
             <tbody>
@@ -154,7 +153,6 @@ const CustomerDashboardPage = () => {
                   <td className="py-4 px-6 text-sm font-inter font-light text-gray-800">
                     {formatDate(customer.createdAt)}
                   </td>
-                  <td className="py-4 px-6 text-center flex justify-center gap-2"></td>
                 </tr>
               ))}
             </tbody>

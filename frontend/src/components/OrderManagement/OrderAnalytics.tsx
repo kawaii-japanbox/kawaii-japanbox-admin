@@ -23,7 +23,7 @@ const OrderAnalytics = () => {
   return (
     <>
       {/* Header Section */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6 mt-4">
         <h1 className="text-lg font-medium font-inter">Recent Activity</h1>
         <select
           value={timeframe}

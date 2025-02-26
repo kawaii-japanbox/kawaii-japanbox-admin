@@ -1,6 +1,6 @@
 import { PencilIcon, ArrowUpTrayIcon } from "@heroicons/react/24/solid";
 import { ArrowUp, ArrowDown, ArrowUpDown } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { formatDate } from "../../utils/helpers";
 import Pagination from "../../Pagination";
 import StatusModal from "./StatusModal";
@@ -101,99 +101,102 @@ const OrderDashboardPage = () => {
           />
         </div>
         {/* User Table */}
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
-          <table className="min-w-full border-collapse border border-white-100">
+        <div className="overflow-x-auto">
+          <table className="min-w-full border-collapse border border-gray-200">
             <thead className="bg-gray-100">
               <tr>
-                <th className="py-3 px-6 text-left font-inter text-sm font-light text-gray-700">
+                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700  min-w-[150px]">
                   ORDER ID
                 </th>
-                <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
+                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700  min-w-[150px]">
                   NAME
-                  <button onClick={() => toggleSort("name")} className="ml-2">
+                  <button
+                    onClick={() => toggleSort("name")}
+                    className="ml-1 sm:ml-2"
+                  >
                     {sortBy === "name" ? (
                       sortOrder === "asc" ? (
-                        <ArrowUp size={16} />
+                        <ArrowUp size={14} />
                       ) : (
-                        <ArrowDown size={16} />
+                        <ArrowDown size={14} />
                       )
                     ) : (
-                      <ArrowUpDown size={16} />
+                      <ArrowUpDown size={14} />
                     )}
                   </button>
                 </th>
-                <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
+                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700  min-w-[150px]">
                   ORDER STATUS
                 </th>
-                <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
+                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700  min-w-[150px]">
                   PAYMENT STATUS
                 </th>
-                <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
+                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700  min-w-[150px]">
                   DELIVERY STATUS
                 </th>
-                <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
+                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700  min-w-[150px]">
                   COMMENT
                 </th>
-                <th className="py-3 px-6 text-left text-sm font-light text-gray-700">
+                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700  min-w-[150px]">
                   CREATED
                   <button
                     onClick={() => toggleSort("createdAt")}
-                    className="ml-2"
+                    className="ml-1 sm:ml-2"
                   >
                     {sortBy === "createdAt" ? (
                       sortOrder === "asc" ? (
-                        <ArrowUp size={16} />
+                        <ArrowUp size={14} />
                       ) : (
-                        <ArrowDown size={16} />
+                        <ArrowDown size={14} />
                       )
                     ) : (
-                      <ArrowUpDown size={16} />
+                      <ArrowUpDown size={14} />
                     )}
                   </button>
                 </th>
-                <th className="py-3 px-6 text-center text-sm font-medium text-gray-700" />
+                <th className="py-2 px-3 sm:py-3 sm:px-6 text-center text-xs sm:text-sm font-medium text-gray-700" />
               </tr>
             </thead>
             <tbody>
               {orders ? (
                 orders.map((order) => (
                   <tr key={order.id} className="hover:bg-gray-50 border-t">
-                    <td className="py-4 px-6 font-inter font-light text-sm text-gray-800">
+                    <td className="py-2 px-3 sm:py-4 sm:px-6 text-xs sm:text-sm text-gray-800">
                       {order.id}
                     </td>
-                    <td className="py-4 px-6 font-inter font-light text-sm text-gray-800">
+                    <td className="py-2 px-3 sm:py-4 sm:px-6 text-xs sm:text-sm text-gray-800">
                       {order.user?.name}
                     </td>
-                    <td className="py-4 px-6 font-inter font-light text-sm">
+                    <td className="py-2 px-3 sm:py-4 sm:px-6 text-xs sm:text-sm">
                       {order.status}
                     </td>
-                    <td className="py-4 px-6 font-inter font-light text-sm">
+                    <td className="py-2 px-3 sm:py-4 sm:px-6 text-xs sm:text-sm">
                       {order.paymentStatus}
                     </td>
-                    <td className="py-4 px-6 font-inter font-light text-sm">
+                    <td className="py-2 px-3 sm:py-4 sm:px-6 text-xs sm:text-sm">
                       {order.deliveryStatus}
                     </td>
-                    <td className="py-4 px-6 font-inter font-light text-sm">
+                    <td className="py-2 px-3 sm:py-4 sm:px-6 text-xs sm:text-sm">
                       {order.reviewComment}
                     </td>
-                    <td className="py-4 px-6 font-inter font-light text-sm">
+                    <td className="py-2 px-3 sm:py-4 sm:px-6 text-xs sm:text-sm">
                       {formatDate(order.createdAt)}
                     </td>
-                    <td className="py-4 px-6 text-center flex justify-center gap-2">
+                    <td className="py-2 px-3 sm:py-4 sm:px-6 text-center flex justify-center gap-2">
                       {/* Edit Icon */}
                       <button
                         onClick={() => handleStatusModalOpen(order.id)}
                         className="text-blue-500 hover:text-blue-700"
                         title="Edit User"
                       >
-                        <PencilIcon className="w-5 h-5" />
+                        <PencilIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                       </button>
                       <button
                         onClick={() => handleOpenUploadModal(order.id)}
-                        className="text-blue-500 hover:text-blue-700"
+                        className="text-green-500 hover:text-green-700"
                         title="Upload Photo"
                       >
-                        <ArrowUpTrayIcon className="h-6 w-6 text-green-500" />
+                        <ArrowUpTrayIcon className="h-4 w-4 sm:h-6 sm:w-6" />
                       </button>
                     </td>
                   </tr>
@@ -207,25 +210,25 @@ const OrderDashboardPage = () => {
               )}
             </tbody>
           </table>
-          <PhotoUploadModal
-            isOpen={isUploadModalOpen}
-            setIsModalOpen={setIsUploadModalOpen}
-            orderId={selectedOrderId}
-          />
-          <StatusModal
-            isModalOpen={isStatusModalOpen}
-            setIsModalOpen={setIsStatusModalOpen}
-            orderId={selectedOrderId}
-            fetchOrders={fetchOrders}
-          />
         </div>
-        <div className="flex justify-center mt-6">
-          <Pagination
-            page={currentPage}
-            pages={pages}
-            onPageChange={handlePageChange}
-          />
-        </div>
+        <PhotoUploadModal
+          isOpen={isUploadModalOpen}
+          setIsModalOpen={setIsUploadModalOpen}
+          orderId={selectedOrderId}
+        />
+        <StatusModal
+          isModalOpen={isStatusModalOpen}
+          setIsModalOpen={setIsStatusModalOpen}
+          orderId={selectedOrderId}
+          fetchOrders={fetchOrders}
+        />
+      </div>
+      <div className="flex justify-center mt-6 sm:mt-6">
+        <Pagination
+          page={currentPage}
+          pages={pages}
+          onPageChange={handlePageChange}
+        />
       </div>
     </Layout>
   );

@@ -2,7 +2,7 @@ import { useState, ChangeEvent, useEffect } from "react";
 import { orderTimePeriods } from "./data";
 import { getOrdersAnalytics } from "../../api/api";
 import { IGetOrdersAnalytics } from "./interface";
-import Spinner from "../../Spinner";
+import Spinner from "../../components/Spinner";
 const OrderAnalytics = () => {
   const [timeframe, setTimeframe] = useState("this_month");
   const [analytics, setAnalytics] = useState<IGetOrdersAnalytics | null>(null);

@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { Heart, Star, Truck, Undo2 } from "lucide-react";
-import Layout from "../../Layout";
-import Pagination from "../../Pagination";
+import Layout from "../../components/Layout";
+import Pagination from "../../components/Pagination";
 import { formatDate } from "../../utils/helpers";
 import { useEffect, useState } from "react";
 import {
@@ -13,8 +13,8 @@ import {
   IGetCustomerDetailsResponse,
   IGetCustomerOrdersResponse,
   IGetOrderAnalytics,
-} from "./data";
-import Spinner from "../../Spinner";
+} from "./interface";
+import Spinner from "../../components/Spinner";
 import React from "react";
 
 const CustomerProfile: React.FC = () => {
@@ -61,7 +61,7 @@ const CustomerProfile: React.FC = () => {
 
   return (
     <Layout>
-      <div className="p-6 bg-gray-50 w-full">
+      <div className="container-wrapper">
         {/* Title Section */}
         <div className="flex justify-between items-start mb-2 p-6">
           <h1 className=" text-2xl font-medium font-inter">General Overview</h1>

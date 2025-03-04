@@ -5,10 +5,10 @@ import { deleteUser, getUsers } from "../../api/api";
 import ConfirmationModal from "./ConfirmationModal";
 import UserForm from "./UserForm";
 import { roleColors } from "./data";
-import Pagination from "../../Pagination";
+import Pagination from "../../components/Pagination";
 import "@fontsource/inter";
 import { formatDate } from "../../utils/helpers";
-import Layout from "../../Layout";
+import Layout from "../../components/Layout";
 
 const UserDashboardPage = () => {
   const [users, setUsers] = useState<IUserResponse[] | null>(null);

@@ -3,6 +3,7 @@ export interface IGetCustomersResponse {
   email: string;
   phone: string;
   name: string;
+  source: string;
   createdAt: string;
 }
 
@@ -56,4 +57,9 @@ export interface IGetOrderAnalytics {
   favoriteProductsPercentage: number;
   orderedProductsCount: number;
   orderedProductsPercentage: number;
+}
+
+export interface CustomersTableProps {
+  customers: IGetCustomersResponse[] | null;
+  loading: boolean;
 }

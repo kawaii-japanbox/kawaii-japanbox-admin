@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { login } from "../api/api";
-import { rolePermissions, Role } from "../Sidebar";
+import { rolePermissions, Role } from "../components/Sidebar";
 import axios from "axios";
 
 export type Page =

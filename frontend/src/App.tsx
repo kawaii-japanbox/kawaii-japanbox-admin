@@ -1,18 +1,18 @@
 import React from "react";
-import "./index.css";
-import LoginPage from "./components/LoginManagement/LoginPage";
+import "./styles/index.css";
+import LoginPage from "./pages/LoginManagement/LoginPage";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Unauthorized from "./components/LoginManagement/Unauthorized";
+import Unauthorized from "./pages/LoginManagement/Unauthorized";
 import { AuthProvider } from "./hooks/useAuth";
-import UserDashboardPage from "./components/UserManagement/UserDashboardPage";
-import OrderDashboardPage from "./components/OrderManagement/OrderDashboardPage";
-import CustomerDashboardPage from "./components/CustomerManagement/CustomerDashboardPage";
-import CustomerProfile from "./components/CustomerManagement/CustomerProfile";
-import Home from "./Home";
-import ProtectedRoute from "./ProtectedRoute";
-import ForgotPassword from "./components/LoginManagement/ForgotPasswordPage";
-import VerificationCodePage from "./components/LoginManagement/VerificationCodePage";
-import ResetPasswordPage from "./components/LoginManagement/ResetPasswordPage";
+import UserDashboardPage from "./pages/UserManagement/UserDashboardPage";
+import OrderDashboardPage from "./pages/OrderManagement/OrderDashboardPage";
+import CustomerDashboardPage from "./pages/CustomerManagement/CustomerDashboardPage";
+import CustomerProfile from "./pages/CustomerManagement/CustomerProfile";
+import Home from "./pages/Home";
+import ProtectedRoute from "./components/ProtectedRoute";
+import ForgotPassword from "./pages/LoginManagement/ForgotPasswordPage";
+import VerificationCodePage from "./pages/LoginManagement/VerificationCodePage";
+import ResetPasswordPage from "./pages/LoginManagement/ResetPasswordPage";
 
 const App: React.FC = () => {
   return (

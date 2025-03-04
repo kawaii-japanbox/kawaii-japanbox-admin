@@ -2,23 +2,20 @@ import axios from "axios";
 import {
   ICreateUserForm,
   IUpdateUserForm,
-} from "../components/UserManagement/interface";
-import { Role } from "../components/UserManagement/data";
+} from "../pages/UserManagement/interface";
+import { Role } from "../pages/UserManagement/data";
 import {
   IDeleteOrderImageRequest,
   IGetOrderForm,
   IUploadPhotoRequest,
   IUploadPhotoResponse,
-} from "../components/OrderManagement/interface";
-import {
-  DeliveryStatus,
-  PaymentStatus,
-} from "../components/OrderManagement/data";
-import { IGetCustomersRequest } from "../components/CustomerManagement/data";
+} from "../pages/OrderManagement/interface";
+import { DeliveryStatus, PaymentStatus } from "../pages/OrderManagement/data";
+import { IGetCustomersRequest } from "../pages/CustomerManagement/interface";
 import {
   IResetPasswordRequest,
   IVerifyCodeRequest,
-} from "../components/LoginManagement/interface";
+} from "../pages/LoginManagement/interface";
 
 const API = axios.create({
   baseURL: `${process.env.REACT_APP_BASE_URL}/api`,

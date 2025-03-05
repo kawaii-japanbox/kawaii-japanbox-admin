@@ -29,23 +29,11 @@ interface Address {
 }
 
 export interface IGetCustomerOrdersResponse {
-  map: any;
   id: string;
   status: string;
   deliveryStatus: string;
   createdAt: string;
-  items: {
-    id: string;
-    product: {
-      name: string;
-    };
-    quantity: number;
-    price: number;
-    currency: string;
-    deliveryCost: number;
-    status: string;
-    createdAt: string;
-  }[];
+  items: OrderItem[];
 }
 
 export interface IGetOrderAnalytics {
@@ -62,4 +50,29 @@ export interface IGetOrderAnalytics {
 export interface CustomersTableProps {
   customers: IGetCustomersResponse[] | null;
   loading: boolean;
+}
+
+export interface CustomerOrderAnalyticsProps {
+  analytics: IGetOrderAnalytics | null;
+}
+
+export interface CustomerDetailsProps {
+  customerDetails: IGetCustomerDetailsResponse | null;
+}
+
+export interface CustomerOrdersTableProps {
+  customerOrders: IGetCustomerOrdersResponse[] | null;
+}
+
+export interface OrderItem {
+  id: string;
+  product: {
+    name: string;
+  };
+  quantity: number;
+  price: number;
+  currency: string;
+  deliveryCost: number;
+  status: string;
+  createdAt: string;
 }

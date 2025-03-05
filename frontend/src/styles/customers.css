@@ -86,3 +86,69 @@
 .header-wrapper {
   @apply text-2xl font-inter text-lg;
 }
+
+.dashboard-card {
+  @apply bg-white text-gray-400 rounded-lg p-6 shadow-md;
+}
+
+.card-title {
+  @apply text-base mt-2;
+}
+
+.card-value {
+  @apply text-black text-2xl font-bold mb-2;
+}
+
+.card-percentage {
+  @apply text-sm;
+}
+
+.spinner-container {
+  @apply flex justify-center items-center h-24;
+}
+
+.analytics-boxes {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6;
+}
+
+.analytics-box-wrapper {
+  @apply flex items-center justify-between;
+}
+
+.analytics-card {
+  @apply flex flex-col justify-start;
+}
+.positive-growth {
+  @apply text-green-500;
+}
+
+.negative-growth {
+  @apply text-red-500;
+}
+
+.card-text {
+  @apply text-gray-500 ml-1;
+}
+
+.customer-details-card {
+  @apply text-black rounded-lg p-6 shadow-md w-full;
+}
+
+.customer-details-title {
+  @apply text-lg font-medium font-inter mb-3;
+}
+.details-row {
+  @apply flex flex-row justify-between items-center flex-wrap mb-2;
+}
+
+.details-label {
+  @apply font-medium break-words sm:whitespace-nowrap;
+}
+
+.details-value {
+  @apply text-gray-400 text-right break-words sm:text-left;
+}
+
+.details-divider {
+  @apply border-t border-gray-200 my-4 w-full;
+}

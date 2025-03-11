@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { PaymentStatus, DeliveryStatus } from "./data";
 import { ModalState, StatusModalProps } from "./interface";
 import { editOrderStatus } from "../../api/api";
+import "../../styles/orders.css";
 
 const StatusModal: React.FC<StatusModalProps> = ({
   isModalOpen,
@@ -42,14 +43,14 @@ const StatusModal: React.FC<StatusModalProps> = ({
   return (
     <>
       {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-xl font-semibold mb-4">
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2 className="modal-title mb-4">
               Edit Payment and Delivery Status
             </h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label htmlFor="paymentStatus" className="block text-gray-700">
+                <label htmlFor="paymentStatus" className="status-form-label">
                   Payment Status:
                 </label>
                 <select
@@ -58,7 +59,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
                   onChange={(e) =>
                     handleSelectChange("paymentStatus", e.target.value)
                   }
-                  className="w-full p-2 border rounded-md"
+                  className="status-form-select"
                 >
                   {Object.values(PaymentStatus).map((status) => (
                     <option key={status} value={status}>
@@ -69,7 +70,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
               </div>
 
               <div className="mb-4">
-                <label htmlFor="deliveryStatus" className="block text-gray-700">
+                <label htmlFor="deliveryStatus" className="status-form-label">
                   Delivery Status:
                 </label>
                 <select
@@ -78,7 +79,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
                   onChange={(e) =>
                     handleSelectChange("deliveryStatus", e.target.value)
                   }
-                  className="w-full p-2 border rounded-md"
+                  className="status-form-select"
                 >
                   {Object.values(DeliveryStatus).map((status) => (
                     <option key={status} value={status}>
@@ -88,17 +89,14 @@ const StatusModal: React.FC<StatusModalProps> = ({
                 </select>
               </div>
 
-              <div className="flex justify-between">
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white py-2 px-4 rounded"
-                >
+              <div className="status-button-group">
+                <button type="submit" className="save-button ">
                   Save
                 </button>
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="bg-gray-300 text-black py-2 px-4 rounded"
+                  className="cancel-button"
                 >
                   Cancel
                 </button>

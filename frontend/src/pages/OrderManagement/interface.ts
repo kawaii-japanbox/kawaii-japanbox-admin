@@ -72,3 +72,12 @@ export interface IGetOrdersAnalytics {
   totalCustomers: number;
   totalDelivery: number;
 }
+
+export interface DesktopCustomerTableProps {
+  sortBy: string;
+  sortOrder: string;
+  handleStatusModalOpen: (orderId: string) => void;
+  handleOpenUploadModal: (orderId: string) => void;
+  toggleSort: (item: string) => void;
+  orders: Order[] | null;
+}

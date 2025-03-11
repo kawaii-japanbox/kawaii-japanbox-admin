@@ -3,6 +3,8 @@ import { orderTimePeriods } from "./data";
 import { getOrdersAnalytics } from "../../api/api";
 import { IGetOrdersAnalytics } from "./interface";
 import Spinner from "../../components/Spinner";
+import "../../styles/orders.css";
+
 const OrderAnalytics = () => {
   const [timeframe, setTimeframe] = useState("this_month");
   const [analytics, setAnalytics] = useState<IGetOrdersAnalytics | null>(null);
@@ -22,13 +24,12 @@ const OrderAnalytics = () => {
 
   return (
     <>
-      {/* Header Section */}
-      <div className="flex justify-between items-center mb-6 mt-4">
-        <h1 className="text-lg font-medium font-inter">Recent Activity</h1>
+      <div className="order-analytics-container">
+        <h1 className="order-analytics-heading">Recent Activity</h1>
         <select
           value={timeframe}
           onChange={handleDropdownChange}
-          className="border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring focus:ring-blue-300"
+          className="order-analytics-dropdown"
         >
           {orderTimePeriods.map((timePeriod) => (
             <option value={timePeriod.value}>{timePeriod.name}</option>
@@ -36,12 +37,12 @@ const OrderAnalytics = () => {
         </select>
       </div>
       {analytics ? (
-        <div className="flex flex-wrap gap-6 p-6">
-          <div className="bg-[#ff7344] text-white rounded-lg p-6 flex-1 text-center shadow-md">
-            <div className="flex items-center justify-between">
-              <div className="flex flex-col justify-start">
-                <h2 className="text-sm font-medium">Total Orders</h2>
-                <p className="text-2xl font-bold mt-2">
+        <div className="analytics-container">
+          <div className="bg-[#ff7344] order-analytics-card">
+            <div className="order-analytics-card-content">
+              <div className="order-analytics-card-text">
+                <h2 className="order-analytics-card-title">Total Orders</h2>
+                <p className="order-analytics-card-value">
                   {analytics.totalOrders}
                 </p>
               </div>
@@ -51,7 +52,7 @@ const OrderAnalytics = () => {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                className="size-10"
+                className="icon"
               >
                 <path
                   stroke-linecap="round"
@@ -61,11 +62,13 @@ const OrderAnalytics = () => {
               </svg>
             </div>
           </div>
-          <div className="bg-[#6146d6] text-white rounded-lg p-6 flex-1 text-center shadow-md">
-            <div className="flex items-center justify-between">
-              <div className="flex flex-col justify-start">
-                <h2 className="text-sm font-medium">Total Products</h2>
-                <p className="text-2xl font-bold mt-2">
+          <div className="bg-[#6146d6] order-analytics-card">
+            <div className="order-analytics-card-content">
+              <div className="order-analytics-card-text">
+                <h2 className="order-analytics-card-content-title">
+                  Total Products
+                </h2>
+                <p className="order-analytics-card-value">
                   {analytics.totalProducts}
                 </p>
               </div>
@@ -75,7 +78,7 @@ const OrderAnalytics = () => {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                className="size-10"
+                className="icon"
               >
                 <path
                   stroke-linecap="round"
@@ -90,11 +93,13 @@ const OrderAnalytics = () => {
               </svg>
             </div>
           </div>
-          <div className="bg-[#0bdc9e] text-white rounded-lg p-6 flex-1 text-center shadow-md">
-            <div className="flex items-center justify-between">
-              <div className="flex flex-col justify-start">
-                <h2 className="text-sm font-medium">Total Delivery</h2>
-                <p className="text-2xl font-bold mt-2">
+          <div className="bg-[#0bdc9e] order-analytics-card">
+            <div className="order-analytics-card-content">
+              <div className="order-analytics-card-text">
+                <h2 className="torder-analytics-card-content-title">
+                  Total Delivery
+                </h2>
+                <p className="order-analytics-card-value">
                   {analytics.totalDelivery}
                 </p>
               </div>
@@ -104,7 +109,7 @@ const OrderAnalytics = () => {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                className="size-10"
+                className="icon"
               >
                 <path
                   stroke-linecap="round"
@@ -114,11 +119,13 @@ const OrderAnalytics = () => {
               </svg>
             </div>
           </div>
-          <div className="bg-[#147bff] text-white rounded-lg p-6 flex-1 text-center shadow-md">
-            <div className="flex items-center justify-between">
-              <div className="flex flex-col justify-start">
-                <h2 className="text-sm font-medium">Total Customer</h2>
-                <p className="text-2xl font-bold mt-2">
+          <div className="bg-[#147bff] order-analytics-card">
+            <div className="order-analytics-card-content">
+              <div className="order-analytics-card-text">
+                <h2 className="order-analytics-card-content-title">
+                  Total Customer
+                </h2>
+                <p className="order-analytics-card-value">
                   {analytics.totalCustomers}
                 </p>
               </div>
@@ -128,7 +135,7 @@ const OrderAnalytics = () => {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                className="size-10"
+                className="icon"
               >
                 <path
                   stroke-linecap="round"

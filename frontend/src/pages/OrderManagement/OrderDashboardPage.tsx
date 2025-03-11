@@ -1,16 +1,14 @@
-import { PencilIcon, ArrowUpTrayIcon } from "@heroicons/react/24/solid";
-import { ArrowUp, ArrowDown, ArrowUpDown } from "lucide-react";
 import { useState, useEffect } from "react";
-import { formatDate } from "../../utils/helpers";
 import Pagination from "../../components/Pagination";
 import StatusModal from "./StatusModal";
 import Layout from "../../components/Layout";
-import Spinner from "../../components/Spinner";
 import { Order } from "./interface";
 import { orderStatuses } from "./data";
 import { getOrders } from "../../api/api";
 import PhotoUploadModal from "./PhotoUploadModal";
 import OrderAnalytics from "./OrderAnalytics";
+import MobileOrderTable from "./MobileOrderTable";
+import DesktopOrderTable from "./DesktopOrderTable";
 
 const OrderDashboardPage = () => {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
@@ -74,7 +72,7 @@ const OrderDashboardPage = () => {
     <Layout>
       <div className="p-6 bg-gray-50 w-full">
         <OrderAnalytics />
-        {/* Header */}
+
         <div className="mb-6">
           <h1 className="text-lg font-inter font-medium"> Order List</h1>
         </div>
@@ -100,117 +98,20 @@ const OrderDashboardPage = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        {/* User Table */}
-        <div className="overflow-x-auto">
-          <table className="min-w-full border-collapse border border-gray-200 font-inter font-light">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
-                  ORDER ID
-                </th>
-                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
-                  NAME
-                  <button
-                    onClick={() => toggleSort("name")}
-                    className="ml-1 sm:ml-2"
-                  >
-                    {sortBy === "name" ? (
-                      sortOrder === "asc" ? (
-                        <ArrowUp size={14} />
-                      ) : (
-                        <ArrowDown size={14} />
-                      )
-                    ) : (
-                      <ArrowUpDown size={14} />
-                    )}
-                  </button>
-                </th>
-                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
-                  ORDER STATUS
-                </th>
-                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
-                  PAYMENT STATUS
-                </th>
-                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
-                  DELIVERY STATUS
-                </th>
-                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
-                  COMMENT
-                </th>
-                <th className="py-2 px-3 sm:py-3 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
-                  CREATED
-                  <button
-                    onClick={() => toggleSort("createdAt")}
-                    className="ml-1 sm:ml-2"
-                  >
-                    {sortBy === "createdAt" ? (
-                      sortOrder === "asc" ? (
-                        <ArrowUp size={16} />
-                      ) : (
-                        <ArrowDown size={16} />
-                      )
-                    ) : (
-                      <ArrowUpDown size={16} />
-                    )}
-                  </button>
-                </th>
-                <th className="py-2 px-3 sm:py-3 sm:px-6 text-center text-xs sm:text-sm font-medium text-gray-700" />
-              </tr>
-            </thead>
-            <tbody>
-              {orders ? (
-                orders.map((order) => (
-                  <tr key={order.id} className="hover:bg-gray-50 border-t">
-                    <td className="py-2 px-3 sm:py-4 sm:px-6 text-xs sm:text-sm text-gray-800">
-                      {order.id}
-                    </td>
-                    <td className="py-2 px-3 sm:py-4 sm:px-6 text-xs sm:text-sm text-gray-800">
-                      {order.user?.name}
-                    </td>
-                    <td className="py-2 px-3 sm:py-4 sm:px-6 text-xs sm:text-sm">
-                      {order.status}
-                    </td>
-                    <td className="py-2 px-3 sm:py-4 sm:px-6 text-xs sm:text-sm">
-                      {order.paymentStatus}
-                    </td>
-                    <td className="py-2 px-3 sm:py-4 sm:px-6 text-xs sm:text-sm">
-                      {order.deliveryStatus}
-                    </td>
-                    <td className="py-2 px-3 sm:py-4 sm:px-6 text-xs sm:text-sm">
-                      {order.reviewComment}
-                    </td>
-                    <td className="py-2 px-3 sm:py-4 sm:px-6 text-xs sm:text-sm">
-                      {formatDate(order.createdAt)}
-                    </td>
-                    <td className="py-2 px-3 sm:py-4 sm:px-6 text-center flex justify-center gap-2">
-                      {/* Edit Icon */}
-                      <button
-                        onClick={() => handleStatusModalOpen(order.id)}
-                        className="text-blue-500 hover:text-blue-700"
-                        title="Edit User"
-                      >
-                        <PencilIcon className="w-4 h-4 sm:w-5 sm:h-5" />
-                      </button>
-                      <button
-                        onClick={() => handleOpenUploadModal(order.id)}
-                        className="text-green-500 hover:text-green-700"
-                        title="Upload Photo"
-                      >
-                        <ArrowUpTrayIcon className="h-4 w-4 sm:h-6 sm:w-6" />
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={8} className="py-6 text-center">
-                    <Spinner />
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+        <DesktopOrderTable
+          sortBy={sortBy}
+          sortOrder={sortOrder}
+          handleStatusModalOpen={handleStatusModalOpen}
+          handleOpenUploadModal={handleOpenUploadModal}
+          toggleSort={toggleSort}
+          orders={orders}
+        />
+        <MobileOrderTable
+          orders={orders}
+          loading={false}
+          handleStatusModalOpen={handleStatusModalOpen}
+          handleOpenUploadModal={handleOpenUploadModal}
+        />
         <PhotoUploadModal
           isOpen={isUploadModalOpen}
           setIsModalOpen={setIsUploadModalOpen}

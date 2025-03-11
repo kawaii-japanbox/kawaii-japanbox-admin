@@ -40,3 +40,10 @@ export interface PaginationProps {
   pages: number;
   onPageChange: (page: number) => void;
 }
+
+export interface UserTableProps {
+  users: IUserResponse[] | null;
+  roleColors: Record<string, string>;
+  handleEditUser: (user: IUserResponse) => void;
+  handleDelete: (id: string) => void;
+}

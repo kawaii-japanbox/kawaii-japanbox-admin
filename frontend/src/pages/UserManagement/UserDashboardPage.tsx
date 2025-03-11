@@ -9,6 +9,8 @@ import Pagination from "../../components/Pagination";
 import "@fontsource/inter";
 import { formatDate } from "../../utils/helpers";
 import Layout from "../../components/Layout";
+import DesktopUserTable from "./DesktopUserTable";
+import MobileUserTable from "./MobileUserTable";
 
 const UserDashboardPage = () => {
   const [users, setUsers] = useState<IUserResponse[] | null>(null);
@@ -112,73 +114,18 @@ const UserDashboardPage = () => {
           </div>
         </div>
         {/* User Table */}
-        <div className="overflow-x-auto">
-          <table className="min-w-full border-collapse border  bg-white border-white-100">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="py-3 px-4 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
-                  NAME
-                </th>
-                <th className="py-3 px-4 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
-                  EMAIL
-                </th>
-                <th className="hidden sm:table-cell py-3 px-6 text-left text-xs sm:text-sm font-light text-gray-700">
-                  PHONE
-                </th>
-                <th className="py-3 px-4 sm:px-6 text-left text-xs sm:text-sm font-light text-gray-700">
-                  ROLE
-                </th>
-                <th className="hidden sm:table-cell py-3 px-6 text-left text-xs sm:text-sm font-light text-gray-700">
-                  CREATED
-                </th>
-                <th className="py-3 px-4 sm:px-6 text-center text-xs sm:text-sm font-medium text-gray-700"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {users?.map((user) => (
-                <tr key={user.id} className="hover:bg-gray-50 border-t">
-                  <td className="py-4 px-4 sm:px-6 text-xs sm:text-sm text-gray-800">
-                    {user.name}
-                  </td>
-                  <td className="py-4 px-4 sm:px-6 text-xs sm:text-sm text-gray-800">
-                    {user.email}
-                  </td>
-                  <td className="hidden sm:table-cell py-4 px-6 text-xs sm:text-sm text-gray-800">
-                    {user.phone}
-                  </td>
-                  <td className="py-4 px-4 sm:px-6 text-xs sm:text-sm">
-                    <span
-                      className={`px-2 py-1 rounded-full text-white text-xs font-semibold ${
-                        roleColors[user.role] || "bg-gray-500"
-                      }`}
-                    >
-                      {user.role}
-                    </span>
-                  </td>
-                  <td className="hidden sm:table-cell py-4 px-6 text-xs sm:text-sm text-gray-800">
-                    {formatDate(user.createdAt)}
-                  </td>
-                  <td className="py-4 px-4 sm:px-6 text-center flex justify-center gap-1 sm:gap-2">
-                    <button
-                      onClick={() => handleEditUser(user)}
-                      className="text-blue-500 hover:text-blue-700 w-6 h-6 sm:w-8 sm:h-8"
-                      title="Edit User"
-                    >
-                      <PencilIcon className="w-4 h-4 sm:w-5 sm:h-5" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(user.id)}
-                      className="text-red-500 hover:text-red-700 w-6 h-6 sm:w-8 sm:h-8"
-                      title="Delete User"
-                    >
-                      <TrashIcon className="w-4 h-4 sm:w-5 sm:h-5" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <DesktopUserTable
+          users={users}
+          roleColors={roleColors}
+          handleEditUser={handleEditUser}
+          handleDelete={handleDelete}
+        />
+        <MobileUserTable
+          users={users}
+          roleColors={roleColors}
+          handleEditUser={handleEditUser}
+          handleDelete={handleDelete}
+        />
 
         <div className="flex justify-center mt-6 sm:mt-6">
           <Pagination

@@ -1,0 +1,44 @@
+/* DesktopUserTable page styles */
+.table-container {
+  @apply overflow-x-auto;
+}
+
+.table {
+  @apply min-w-full border-collapse border bg-white;
+}
+
+.table-header {
+  @apply bg-gray-100;
+}
+
+.table-header-cell {
+  @apply py-3 px-4 text-left text-xs sm:text-sm font-light text-gray-700;
+}
+
+.table-row {
+  @apply hover:bg-gray-50 border-t;
+}
+
+.table-cell {
+  @apply py-4 px-4 sm:px-6 text-xs text-gray-800;
+}
+
+.role-badge {
+  @apply px-2 py-1 rounded-full text-white text-xs font-semibold;
+}
+
+.action-buttons {
+  @apply text-center flex justify-center gap-1;
+}
+
+.edit-button {
+  @apply text-blue-500 hover:text-blue-700 w-6 h-6 sm:w-8 sm:h-8;
+}
+
+.users-delete-button {
+  @apply text-red-500 hover:text-red-700 w-6 h-6 sm:w-8 sm:h-8;
+}
+
+.users-delete-icon {
+  @apply w-4 h-4 sm:w-5 sm:h-5;
+}

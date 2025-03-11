@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { verifyOtp } from "../../api/api";
+import "../../styles/login.css";
 
 const VerificationCodePage: React.FC = () => {
   const [code, setCode] = useState<string[]>(new Array(6).fill(""));
@@ -65,16 +66,14 @@ const VerificationCodePage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-6 rounded-lg shadow-md w-80">
-        <h2 className="text-xl font-semibold text-center mb-4">
-          Verification Code
-        </h2>
-        <p className="text-sm text-gray-500 text-center mb-4">
+    <div className="verification-container">
+      <div className="verification-box">
+        <h2 className="verification-title">Verification Code</h2>
+        <p className="verification-subtitle ">
           We have sent a verification code to your email. Please check your
           email and enter the code
         </p>
-        <div className="flex justify-center gap-2" onPaste={handlePaste}>
+        <div className="code-input-container" onPaste={handlePaste}>
           {code.map((digit, index) => (
             <input
               key={index}
@@ -86,10 +85,8 @@ const VerificationCodePage: React.FC = () => {
               maxLength={1}
               onChange={(e) => handleChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className={`w-10 h-12 text-center text-lg border rounded-md focus:ring-2 focus:outline-none ${
-                error
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-gray-300 focus:ring-blue-500"
+              className={`code-input ${
+                error ? "code-input-error" : "code-input-normal"
               }`}
             />
           ))}
@@ -97,15 +94,13 @@ const VerificationCodePage: React.FC = () => {
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className={`mt-4 w-full text-white py-2 rounded-md flex items-center justify-center transition duration-200 ${
-            loading
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-blue-500 hover:bg-blue-600"
+          className={`submit-button mt-4 ${
+            loading ? "submit-button-loading" : "submit-button-normal"
           }`}
         >
           {loading ? (
             <svg
-              className="w-5 h-5 animate-spin text-white"
+              className="verification-spinner"
               fill="none"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
@@ -128,11 +123,7 @@ const VerificationCodePage: React.FC = () => {
             "Confirm"
           )}
         </button>
-        {error && (
-          <p className="text-red-600 p-2 rounded mt-4 text-center max-w-full break-words whitespace-pre-line">
-            {error}
-          </p>
-        )}
+        {error && <p className="error-message">{error}</p>}
       </div>
     </div>
   );

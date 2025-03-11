@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { resetPassword } from "../../api/api";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
+import "../../styles/login.css";
 
 const ResetPasswordPage = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -36,12 +37,10 @@ const ResetPasswordPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96 font-inter">
-        <h2 className="text-2xl font-semibold text-center mb-4">
-          Reset Password
-        </h2>
-        <p className="text-sm text-gray-600 text-center mb-6">
+    <div className="reset-password-container">
+      <div className="reset-password-box">
+        <h2 className="reset-password-title">Reset Password</h2>
+        <p className="reset-password-subtitle">
           Please enter and confirm your new password to complete the reset
           process.
         </p>
@@ -50,10 +49,8 @@ const ResetPasswordPage = () => {
           <div className="relative w-full">
             <input
               type={showNewPassword ? "text" : "password"}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-sm ${
-                error
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-gray-300 focus:ring-blue-500"
+              className={`reset-password-form-input ${
+                error ? "form-input-error" : "form-input-normal"
               }`}
               placeholder="New password"
               value={newPassword}
@@ -62,7 +59,7 @@ const ResetPasswordPage = () => {
             />
             <button
               type="button"
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+              className="password-toggle-button"
               onClick={() => setShowNewPassword((prev) => !prev)}
             >
               {showNewPassword ? (
@@ -77,10 +74,8 @@ const ResetPasswordPage = () => {
           <div className="relative w-full">
             <input
               type={showConfirmPassword ? "text" : "password"}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-sm ${
-                error
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-gray-300 focus:ring-blue-500"
+              className={`reset-password-form-input ${
+                error ? "form-input-error" : "form-input-normal"
               }`}
               placeholder="Confirm password"
               value={confirmPassword}
@@ -89,7 +84,7 @@ const ResetPasswordPage = () => {
             />
             <button
               type="button"
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+              className="password-toggle-button"
               onClick={() => setShowConfirmPassword((prev) => !prev)}
             >
               {showConfirmPassword ? (
@@ -102,16 +97,12 @@ const ResetPasswordPage = () => {
         </form>
         <button
           type="submit"
-          className="w-full bg-blue-500 mt-4 text-white py-2 rounded-lg hover:bg-blue-600 transition"
+          className="mt-4 submit-button"
           onClick={(e) => handleSubmit(e)}
         >
           Reset
         </button>
-        {error && (
-          <p className="text-red-600 p-2 rounded mt-4 text-center max-w-full break-words whitespace-pre-line">
-            {error}
-          </p>
-        )}{" "}
+        {error && <p className="error-message">{error}</p>}{" "}
       </div>
     </div>
   );

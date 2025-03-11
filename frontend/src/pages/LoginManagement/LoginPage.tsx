@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
+import "../../styles/login.css";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -25,22 +26,13 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-gray-100 flex items-center justify-center min-h-screen">
-      <div className="bg-white shadow-lg rounded-lg p-8 max-w-sm w-full font-inter">
-        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
-          Login
-        </h2>
-        {error && (
-          <p className="text-red-600 bg-red-100 p-2 rounded mb-4 text-center max-w-full break-words whitespace-pre-line">
-            {error}
-          </p>
-        )}
+    <div className="login-container">
+      <div className="login-box">
+        <h2 className="login-title">Login</h2>
+        {error && <p className="error-message">{error}</p>}
         <form action="submit" method="POST" onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
+            <label htmlFor="email" className="login-form-label">
               Email
             </label>
             <input
@@ -49,17 +41,14 @@ const LoginPage: React.FC = () => {
               onChange={(e) => setEmail(e.target.value)}
               id="email"
               name="email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="login-form-input"
               placeholder="Enter your email"
               required
             />
           </div>
 
           <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
+            <label htmlFor="password" className="login-form-label">
               Password
             </label>
             <input
@@ -68,40 +57,32 @@ const LoginPage: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               id="password"
               name="password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="login-form-input"
               placeholder="Enter your password"
               required
             />
           </div>
 
-          <div className="flex items-center mb-4">
+          <div className="remember-checkbox-container">
             <input
               type="checkbox"
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
               id="remember"
               name="remember"
-              className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              className="remember-checkbox"
             />
-            <label
-              htmlFor="remember"
-              className="ml-2 block text-sm text-gray-700"
-            >
+            <label htmlFor="remember" className="remember-checkbox-label">
               Remember me
             </label>
           </div>
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200"
-          >
+          <button type="submit" className="submit-button">
             Login
           </button>
 
           <Link to="/forgot-password">
-            <p className="text-sm text-center text-blue-600 mt-4 hover:underline hover:text-blue-600 transition">
-              Forgot your password?
-            </p>
+            <p className="forgot-password-link">Forgot your password?</p>
           </Link>
         </form>
       </div>

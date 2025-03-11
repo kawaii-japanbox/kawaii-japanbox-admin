@@ -14,7 +14,6 @@ import {
   IGetCustomerOrdersResponse,
   IGetOrderAnalytics,
 } from "./interface";
-import Spinner from "../../components/Spinner";
 import React from "react";
 import "../../styles/customers.css";
 import CustomerOrderAnalytics from "./CustomerOrderAnalytics";

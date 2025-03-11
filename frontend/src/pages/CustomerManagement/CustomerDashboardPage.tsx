@@ -56,7 +56,12 @@ const CustomerDashboardPage = () => {
     setSelectedUserId(null);
   };
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = async (page: number) => {
+    if (page !== currentPage && !loading) {
+      setLoading(true);
+      setCurrentPage(page);
+      setLoading(false);
+    }
     setCurrentPage(page);
   };
 
@@ -69,21 +74,13 @@ const CustomerDashboardPage = () => {
     fetchCustomers(currentPage);
   }, [currentPage, searchQuery]);
 
-  // if (loading) {
-  //   return (
-  //     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-  //       <p className="text-lg font-semibold">Loading customers...</p>
-  //     </div>
-  //   );
-  // }
-
-  // if (error) {
-  //   return (
-  //     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-  //       <p className="text-lg font-semibold text-red-500">{error}</p>
-  //     </div>
-  //   );
-  // }
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <p className="text-lg font-semibold text-red-500">{error}</p>
+      </div>
+    );
+  }
 
   return (
     <Layout>

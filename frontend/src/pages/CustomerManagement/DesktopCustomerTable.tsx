@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CustomersTableProps } from "./interface";
 import { formatDate } from "../../utils/helpers";
 import Spinner from "../../components/Spinner";
@@ -16,6 +16,11 @@ const DesktopCustomerTable: React.FC<CustomersTableProps> = ({
   customers,
   loading,
 }) => {
+  const navigate = useNavigate();
+
+  const handleRowClick = (id: string) => {
+    navigate(`/customers/${id}`, { state: { id: id } });
+  };
   return (
     <div className="table-container">
       <table className="table">
@@ -31,8 +36,8 @@ const DesktopCustomerTable: React.FC<CustomersTableProps> = ({
         <tbody>
           {loading ? (
             <tr>
-              <td colSpan={5} className="spinner-container">
-                <div className="spinner-wrapper">
+              <td colSpan={5} className="customers-spinner-container">
+                <div className="customers-spinner-wrapper">
                   <Spinner />
                 </div>
               </td>
@@ -41,15 +46,12 @@ const DesktopCustomerTable: React.FC<CustomersTableProps> = ({
             <TableEmptyState message={"No customers found"} colSpan={5} />
           ) : (
             customers?.map((customer) => (
-              <tr key={customer.id} className="table-row">
-                <td className="table-cell">
-                  <Link
-                    to={`/customers/${customer.id}`}
-                    state={{ id: customer.id }}
-                  >
-                    {customer.name}
-                  </Link>
-                </td>
+              <tr
+                key={customer.id}
+                className="table-row hover:bg-gray-100 cursor-pointer"
+                onClick={() => handleRowClick(customer.id)}
+              >
+                <td className="table-cell">{customer.name}</td>
                 <td className="table-cell">{customer.email}</td>
                 <td className="table-cell">{customer.phone}</td>
                 <td className="table-cell">{customer.source}</td>

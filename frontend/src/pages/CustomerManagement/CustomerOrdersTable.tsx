@@ -6,32 +6,39 @@ import {
   OrderItem,
 } from "./interface";
 
-const OrderDetailsList: React.FC<{ items: OrderItem[] }> = ({ items }) => (
-  <div className="bg-gray-100 p-4 rounded-lg mt-2">
-    {items.map((item) => (
-      <div key={item.id} className="border-b pb-2 mb-2 last:border-none">
-        <p className="text-sm">
-          <strong>Product:</strong> {item.product.name}
-        </p>
-        <p className="text-sm">
-          <strong>Quantity:</strong> {item.quantity}
-        </p>
-        <p className="text-sm">
-          <strong>Price:</strong> {item.price} {item.currency}
-        </p>
-        <p className="text-sm">
-          <strong>Delivery Cost:</strong> {item.deliveryCost}
-        </p>
-        <p className="text-sm">
-          <strong>Status:</strong> {item.status}
-        </p>
-        <p className="text-sm">
-          <strong>Created:</strong> {formatDate(item.createdAt)}
-        </p>
-      </div>
-    ))}
-  </div>
-);
+const OrderDetailsList: React.FC<{ items: OrderItem[] }> = ({ items }) => {
+  return (
+    <div className="bg-gray-100 p-4 rounded-lg mt-2">
+      {items.map(
+        ({
+          id,
+          product,
+          quantity,
+          price,
+          currency,
+          deliveryCost,
+          status,
+          createdAt,
+        }) => (
+          <div key={id} className="border-b pb-2 mb-4 last:border-none">
+            {[
+              { label: "Product", value: product.name },
+              { label: "Quantity", value: quantity },
+              { label: "Price", value: `${price} ${currency}` },
+              { label: "Delivery Cost", value: deliveryCost },
+              { label: "Status", value: status },
+              { label: "Created", value: formatDate(createdAt) },
+            ].map(({ label, value }) => (
+              <p key={label} className="text-sm">
+                <strong>{label}:</strong> {value}
+              </p>
+            ))}
+          </div>
+        )
+      )}
+    </div>
+  );
+};
 
 const OrderRow: React.FC<{
   order: IGetCustomerOrdersResponse;
@@ -56,34 +63,10 @@ const OrderRow: React.FC<{
         {formatDate(order.createdAt)}
       </td>
     </tr>
-
-    {/* Mobile View */}
-    <tr className="md:hidden border-t">
-      <td colSpan={5} className="p-4">
-        <div className="bg-white shadow-md p-4 rounded-lg">
-          <p className="text-sm">
-            <strong>ID:</strong> {order.id}
-          </p>
-          <p className="text-sm">
-            <strong>STATUS:</strong> {order.status}
-          </p>
-          <p className="text-sm">
-            <strong>DELIVERY STATUS:</strong> {order.deliveryStatus}
-          </p>
-          <p className="text-sm">
-            <strong>CREATED:</strong> {formatDate(order.createdAt)}
-          </p>
-          <button onClick={onToggle} className="text-blue-500 text-sm mt-2">
-            {expanded ? "Hide Details ▲" : "Show Details ▼"}
-          </button>
-        </div>
-      </td>
-    </tr>
-
-    {expanded && order.items?.length > 0 && (
-      <tr>
-        <td colSpan={5} className="p-4">
-          <OrderDetailsList items={order.items} />
+    {expanded && (
+      <tr className="hidden md:table-row">
+        <td colSpan={5} className="bg-gray-100">
+          <NestedOrderTable items={order.items} />
         </td>
       </tr>
     )}
@@ -167,6 +150,60 @@ const CustomerOrdersTable: React.FC<CustomerOrdersTableProps> = ({
         )}
       </div>
     </div>
+  );
+};
+
+const NestedOrderTable: React.FC<{ items: OrderItem[] }> = ({ items }) => {
+  if (items.length === 0) {
+    return (
+      <div className="nested-table-cell text-center">No order items found</div>
+    );
+  }
+
+  return (
+    <table className="nested-table-container">
+      <thead>
+        <tr className="nested-table-header">
+          {[
+            "Product",
+            "Quantity",
+            "Price",
+            "Delivery Cost",
+            "Status",
+            "Created",
+          ].map((heading) => (
+            <th key={heading} className="nested-table-header-cell">
+              {heading}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {items.map(
+          ({
+            id,
+            product,
+            quantity,
+            price,
+            currency,
+            deliveryCost,
+            status,
+            createdAt,
+          }) => (
+            <tr key={id} className="nested-table-row">
+              <td className="nested-table-cell">{product.name}</td>
+              <td className="nested-table-cell">{quantity}</td>
+              <td className="nested-table-cell">
+                {price.toFixed(2)} {currency}
+              </td>
+              <td className="nested-table-cell">{deliveryCost}</td>
+              <td className="nested-table-cell">{status}</td>
+              <td className="nested-table-cell">{formatDate(createdAt)}</td>
+            </tr>
+          )
+        )}
+      </tbody>
+    </table>
   );
 };
 

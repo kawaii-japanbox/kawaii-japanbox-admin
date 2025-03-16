@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
 import { deleteUser, getCustomers } from "../../api/api";
 import Pagination from "../../components/Pagination";
+import { useEffect, useState } from "react";
 import "@fontsource/inter";
 import Layout from "../../components/Layout";
 import { IGetCustomersResponse } from "./interface";
 import "../../styles/customers.css";
-import MobileCustomerTable from "./MobileCustomerTable";
 import DesktopCustomerTable from "./DesktopCustomerTable";
+import MobileCustomerTable from "./MobileCustomerTable";
 
 const CustomerDashboardPage = () => {
   const [loading, setLoading] = useState<boolean>(true);

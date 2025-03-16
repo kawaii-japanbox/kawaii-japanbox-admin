@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import { createOrderTag, removeOrderTag, updateOrderNote } from "../../api/api";
 import { formatDate } from "../../utils/helpers";
 import {
   CustomerOrdersTableProps,
   IGetCustomerOrdersResponse,
   OrderItem,
+  OrderTag,
+  OrderTagsProps,
 } from "./interface";
+import * as Popover from "@radix-ui/react-popover";
+import { Check, Edit, StickyNote } from "lucide-react";
+import { NotebookPen } from "lucide-react";
+import { Plus, X } from "lucide-react";
+import { useEffect, useState } from "react";
+
+const existingTags = ["Urgent", "Pending", "Delivered"]; // Mocked existing tags
 
 const OrderDetailsList: React.FC<{ items: OrderItem[] }> = ({ items }) => {
   return (
@@ -44,34 +53,212 @@ const OrderRow: React.FC<{
   order: IGetCustomerOrdersResponse;
   expanded: boolean;
   onToggle: () => void;
-}> = ({ order, expanded, onToggle }) => (
-  <>
-    {/* Desktop View */}
-    <tr
-      className="hover:bg-gray-50 border-t cursor-pointer hidden md:table-row"
-      onClick={onToggle}
-    >
-      <td className="py-4 px-6 text-center text-sm font-medium text-gray-700">
-        {expanded ? "▼" : "▶"}
-      </td>
-      <td className="py-4 px-6 text-sm text-gray-800">{order.id}</td>
-      <td className="py-4 px-6 text-sm text-gray-800">{order.status}</td>
-      <td className="py-4 px-6 text-sm text-gray-800">
-        {order.deliveryStatus}
-      </td>
-      <td className="py-4 px-6 text-sm text-gray-800">
-        {formatDate(order.createdAt)}
-      </td>
-    </tr>
-    {expanded && (
-      <tr className="hidden md:table-row">
-        <td colSpan={5} className="bg-gray-100">
-          <NestedOrderTable items={order.items} />
+}> = ({ order, expanded, onToggle }) => {
+  const [suggestedTags, setSuggestedTags] = useState(existingTags);
+  const [tagInput, setTagInput] = useState("");
+  const [orderTags, setOrderTags] = useState(order.orderTags);
+  const [openPopoverForOrder, setOpenPopoverForOrder] = useState<string | null>(
+    null
+  );
+  const handleTagsUpdate = (updatedTags: OrderTag[]) => {
+    console.log("updated:", updatedTags);
+    setOrderTags(updatedTags);
+  };
+
+  useEffect(() => {}, [orderTags]);
+  return (
+    <>
+      {/* Desktop View */}
+      <tr className="hover:bg-gray-50 border-t cursor-pointer hidden md:table-row">
+        <td
+          className="py-4 px-6 text-center text-sm font-medium text-gray-700"
+          onClick={onToggle}
+        >
+          {expanded ? "▼" : "▶"}
+        </td>
+        <td className="py-4 px-6 text-sm text-gray-800">{order.id}</td>
+        <td className="py-4 px-6 text-sm text-gray-800">{order.status}</td>
+        <td className="py-4 px-6 text-sm text-gray-800">
+          {order.deliveryStatus}
+        </td>
+        <td className="py-4 px-6 text-sm text-gray-800">
+          {formatDate(order.createdAt)}
+        </td>
+        <td className="table-cell">
+          <OrderTags
+            key={orderTags.length}
+            orderId={order.id}
+            orderTags={orderTags}
+            onTagsUpdate={handleTagsUpdate}
+          />
+        </td>
+        <td>
+          <OrderNote orderId={order.id} note={order.note} />
         </td>
       </tr>
-    )}
-  </>
-);
+      {expanded && (
+        <tr className="hidden md:table-row">
+          <td colSpan={5} className="bg-gray-100">
+            <NestedOrderTable items={order.items} />
+          </td>
+        </tr>
+      )}
+    </>
+  );
+};
+
+interface OrderNoteProps {
+  orderId: string;
+  note: string;
+}
+
+const OrderNote: React.FC<OrderNoteProps> = ({ orderId, note }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedNote, setEditedNote] = useState(note);
+  const [open, setOpen] = useState(false);
+
+  const handleSave = async () => {
+    if (editedNote.trim() && editedNote !== note) {
+      await updateOrderNote(orderId, editedNote);
+    }
+    setIsEditing(false);
+    setOpen(false);
+  };
+
+  return (
+    <Popover.Root open={open} onOpenChange={setOpen}>
+      <Popover.Trigger asChild>
+        <button className="table-cell text-blue-500 hover:text-blue-700">
+          <NotebookPen />
+        </button>
+      </Popover.Trigger>
+
+      <Popover.Portal>
+        <Popover.Content className="w-72 p-4 bg-white shadow-md rounded-lg border font-inter">
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-semibold">Note</h3>
+            <button onClick={() => setOpen(false)}>
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+
+          {isEditing ? (
+            <textarea
+              value={editedNote}
+              onChange={(e) => setEditedNote(e.target.value)}
+              className="w-full mt-2 p-2 border rounded resize-none"
+              rows={4}
+            />
+          ) : (
+            <p className="mt-2 text-gray-700">{note || "No note available"}</p>
+          )}
+
+          <div className="flex justify-end mt-3 space-x-2">
+            {isEditing ? (
+              <>
+                <button onClick={() => setIsEditing(false)}>Cancel</button>
+                <button onClick={handleSave}>Save</button>
+              </>
+            ) : (
+              <button onClick={() => setIsEditing(true)}>
+                <Edit className="h-4 w-4 text-blue-500 hover:text-blue-700" />
+              </button>
+            )}
+          </div>
+
+          <Popover.Arrow className="fill-white" />
+        </Popover.Content>
+      </Popover.Portal>
+    </Popover.Root>
+  );
+};
+
+const OrderTags: React.FC<OrderTagsProps> = ({
+  orderId,
+  orderTags,
+  onTagsUpdate,
+}) => {
+  const [tags, setTags] = useState<OrderTag[]>(orderTags);
+
+  const [newTag, setNewTag] = useState("");
+  const [showInput, setShowInput] = useState(false);
+
+  useEffect(() => {
+    setTags(orderTags);
+  }, [orderTags]);
+
+  const addTag = async () => {
+    const trimmedTag = newTag.trim();
+    if (!trimmedTag) return;
+
+    try {
+      const createdTag = await createOrderTag(orderId, trimmedTag);
+
+      if (createdTag?.id && createdTag?.name) {
+        const updatedTags = [
+          ...tags,
+          {
+            id: createdTag.id,
+            tag: { id: createdTag.id, name: createdTag.name },
+          },
+        ];
+        setTags(updatedTags);
+        onTagsUpdate(updatedTags);
+        console.log("called ontagsupdate...");
+      }
+    } catch (error) {
+      console.error("Failed to add tag:", error);
+    } finally {
+      setNewTag("");
+      setShowInput(false);
+    }
+  };
+
+  const removeTag = async (tagId: string) => {
+    await removeOrderTag(orderId, tagId);
+    setTags(tags.filter((t) => t.tag.id !== tagId));
+  };
+
+  return (
+    <div className="p-4 bg-gray-100 rounded-lg">
+      <div className="flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <div
+            key={tag.tag.name}
+            className="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full text-sm whitespace-nowrap"
+          >
+            {tag.tag.name}
+            <X
+              className="ml-2 h-4 w-4 cursor-pointer hover:text-gray-300"
+              onClick={() => removeTag(tag.tag.id)}
+            />
+          </div>
+        ))}
+
+        {showInput ? (
+          <input
+            type="text"
+            value={newTag}
+            onChange={(e) => setNewTag(e.target.value)}
+            onBlur={addTag}
+            onKeyDown={(e) => e.key === "Enter" && addTag()}
+            autoFocus
+            className="border p-1 rounded text-sm"
+          />
+        ) : (
+          <button
+            onClick={(e) => {
+              setShowInput(true);
+            }}
+            className="flex items-center bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded-full text-sm"
+          >
+            <Plus className="h-4 w-4" />
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
 
 const CustomerOrdersTable: React.FC<CustomerOrdersTableProps> = ({
   customerOrders,
@@ -89,11 +276,13 @@ const CustomerOrdersTable: React.FC<CustomerOrdersTableProps> = ({
         <thead className="bg-gray-100 text-sm text-gray-700">
           <tr>
             <th className="py-3 px-6 text-center"></th>
-            {["ID", "STATUS", "DELIVERY STATUS", "CREATED"].map((header) => (
-              <th key={header} className="py-3 px-6 text-left font-light">
-                {header}
-              </th>
-            ))}
+            {["ID", "STATUS", "DELIVERY STATUS", "CREATED", "TAGS", ""].map(
+              (header) => (
+                <th key={header} className="py-3 px-6 text-left font-light">
+                  {header}
+                </th>
+              )
+            )}
           </tr>
         </thead>
         <tbody>

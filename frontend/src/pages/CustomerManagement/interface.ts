@@ -34,6 +34,8 @@ export interface IGetCustomerOrdersResponse {
   deliveryStatus: string;
   createdAt: string;
   items: OrderItem[];
+  orderTags: OrderTag[];
+  note: string;
 }
 
 export interface IGetOrderAnalytics {
@@ -75,4 +77,17 @@ export interface OrderItem {
   deliveryCost: number;
   status: string;
   createdAt: string;
+  note?: string;
+  orderTags: string;
+}
+
+export interface OrderTagsProps {
+  orderId: string;
+  orderTags: OrderTag[];
+  onTagsUpdate: (updatedTags: OrderTag[]) => void;
+}
+
+export interface OrderTag {
+  id: string;
+  tag: { name: string; id: string };
 }

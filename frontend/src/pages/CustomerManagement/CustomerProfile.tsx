@@ -1,23 +1,23 @@
-import { useParams } from "react-router-dom";
-import { Heart, Star, Truck, Undo2 } from "lucide-react";
-import Layout from "../../components/Layout";
-import Pagination from "../../components/Pagination";
-import { formatDate } from "../../utils/helpers";
-import { useEffect, useState } from "react";
 import {
   getCustomerDetails,
   getCustomerOrderAnalytics,
   getCustomerOrders,
 } from "../../api/api";
+import Layout from "../../components/Layout";
+import Pagination from "../../components/Pagination";
+import { formatDate } from "../../utils/helpers";
 import {
   IGetCustomerDetailsResponse,
   IGetCustomerOrdersResponse,
   IGetOrderAnalytics,
 } from "./interface";
+import { Heart, Star, Truck, Undo2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import React from "react";
+import { useParams } from "react-router-dom";
 import "../../styles/customers.css";
-import CustomerOrderAnalytics from "./CustomerOrderAnalytics";
 import CustomerDetails from "./CustomerDetails";
+import CustomerOrderAnalytics from "./CustomerOrderAnalytics";
 import CustomerOrdersTable from "./CustomerOrdersTable";
 
 const CustomerProfile: React.FC = () => {

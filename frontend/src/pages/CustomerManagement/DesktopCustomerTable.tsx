@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { CustomersTableProps } from "./interface";
+import { CustomersTableProps, OrderItem } from "./interface";
 import { formatDate } from "../../utils/helpers";
 import Spinner from "../../components/Spinner";
 import TableEmptyState from "../../components/TableEmptyState";

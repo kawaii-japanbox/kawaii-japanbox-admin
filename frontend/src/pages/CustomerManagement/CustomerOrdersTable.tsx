@@ -1,5 +1,6 @@
 import { createOrderTag, removeOrderTag, updateOrderNote } from "../../api/api";
 import { formatDate } from "../../utils/helpers";
+import { Order } from "../OrderManagement/interface";
 import {
   CustomerOrdersTableProps,
   IGetCustomerOrdersResponse,
@@ -60,9 +61,16 @@ const OrderRow: React.FC<{
   const [openPopoverForOrder, setOpenPopoverForOrder] = useState<string | null>(
     null
   );
+  const [newOrder, setNewOrder] = useState<IGetCustomerOrdersResponse>(order);
+
   const handleTagsUpdate = (updatedTags: OrderTag[]) => {
-    console.log("updated:", updatedTags);
     setOrderTags(updatedTags);
+  };
+
+  const handleUpdateNote = (newNote: string) => {
+    if (order) {
+      setNewOrder({ ...order, note: newNote });
+    }
   };
 
   useEffect(() => {}, [orderTags]);
@@ -76,30 +84,34 @@ const OrderRow: React.FC<{
         >
           {expanded ? "▼" : "▶"}
         </td>
-        <td className="py-4 px-6 text-sm text-gray-800">{order.id}</td>
-        <td className="py-4 px-6 text-sm text-gray-800">{order.status}</td>
+        <td className="py-4 px-6 text-sm text-gray-800">{newOrder.id}</td>
+        <td className="py-4 px-6 text-sm text-gray-800">{newOrder.status}</td>
         <td className="py-4 px-6 text-sm text-gray-800">
-          {order.deliveryStatus}
+          {newOrder.deliveryStatus}
         </td>
         <td className="py-4 px-6 text-sm text-gray-800">
-          {formatDate(order.createdAt)}
+          {formatDate(newOrder.createdAt)}
         </td>
         <td className="table-cell">
           <OrderTags
             key={orderTags.length}
-            orderId={order.id}
+            orderId={newOrder.id}
             orderTags={orderTags}
             onTagsUpdate={handleTagsUpdate}
           />
         </td>
         <td>
-          <OrderNote orderId={order.id} note={order.note} />
+          <OrderNote
+            orderId={newOrder.id}
+            note={newOrder.note}
+            onUpdateNote={handleUpdateNote}
+          />
         </td>
       </tr>
       {expanded && (
         <tr className="hidden md:table-row">
           <td colSpan={5} className="bg-gray-100">
-            <NestedOrderTable items={order.items} />
+            <NestedOrderTable items={newOrder.items} />
           </td>
         </tr>
       )}
@@ -110,9 +122,14 @@ const OrderRow: React.FC<{
 interface OrderNoteProps {
   orderId: string;
   note: string;
+  onUpdateNote: (newNote: string) => void;
 }
 
-const OrderNote: React.FC<OrderNoteProps> = ({ orderId, note }) => {
+const OrderNote: React.FC<OrderNoteProps> = ({
+  orderId,
+  note,
+  onUpdateNote,
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedNote, setEditedNote] = useState(note);
   const [open, setOpen] = useState(false);
@@ -120,6 +137,7 @@ const OrderNote: React.FC<OrderNoteProps> = ({ orderId, note }) => {
   const handleSave = async () => {
     if (editedNote.trim() && editedNote !== note) {
       await updateOrderNote(orderId, editedNote);
+      onUpdateNote(editedNote);
     }
     setIsEditing(false);
     setOpen(false);
@@ -156,8 +174,18 @@ const OrderNote: React.FC<OrderNoteProps> = ({ orderId, note }) => {
           <div className="flex justify-end mt-3 space-x-2">
             {isEditing ? (
               <>
-                <button onClick={() => setIsEditing(false)}>Cancel</button>
-                <button onClick={handleSave}>Save</button>
+                <button
+                  onClick={() => setIsEditing(false)}
+                  className="px-3 py-1 text-gray-600 bg-gray-200 rounded-md hover:bg-gray-300 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSave}
+                  className="px-3 py-1 text-white bg-blue-500 rounded-md hover:bg-blue-600 transition"
+                >
+                  Save
+                </button>
               </>
             ) : (
               <button onClick={() => setIsEditing(true)}>
@@ -204,7 +232,6 @@ const OrderTags: React.FC<OrderTagsProps> = ({
         ];
         setTags(updatedTags);
         onTagsUpdate(updatedTags);
-        console.log("called ontagsupdate...");
       }
     } catch (error) {
       console.error("Failed to add tag:", error);

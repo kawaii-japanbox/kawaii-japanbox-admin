@@ -55,12 +55,7 @@ const OrderRow: React.FC<{
   expanded: boolean;
   onToggle: () => void;
 }> = ({ order, expanded, onToggle }) => {
-  const [suggestedTags, setSuggestedTags] = useState(existingTags);
-  const [tagInput, setTagInput] = useState("");
   const [orderTags, setOrderTags] = useState(order.orderTags);
-  const [openPopoverForOrder, setOpenPopoverForOrder] = useState<string | null>(
-    null
-  );
   const [newOrder, setNewOrder] = useState<IGetCustomerOrdersResponse>(order);
 
   const handleTagsUpdate = (updatedTags: OrderTag[]) => {
@@ -122,7 +117,7 @@ const OrderRow: React.FC<{
 interface OrderNoteProps {
   orderId: string;
   note: string;
-  onUpdateNote: (newNote: string) => void;
+  onUpdateNote: (newNote: string, index?: number, orderId?: string) => void;
 }
 
 const OrderNote: React.FC<OrderNoteProps> = ({
@@ -290,11 +285,46 @@ const OrderTags: React.FC<OrderTagsProps> = ({
 const CustomerOrdersTable: React.FC<CustomerOrdersTableProps> = ({
   customerOrders,
 }) => {
+  const [orders, setOrders] = useState<IGetCustomerOrdersResponse[]>(
+    () => customerOrders || []
+  );
   const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({});
+  const [orderTagsMap, setOrderTagsMap] = useState<Record<string, OrderTag[]>>(
+    () => {
+      return customerOrders
+        ? Object.fromEntries(
+            customerOrders.map((order) => order.orderTags || [])
+          )
+        : {};
+    }
+  );
 
   const toggleRow = (id: string) => {
     setExpandedRows((prev) => ({ ...prev, [id]: !prev[id] }));
   };
+
+  const handleTagsUpdate = (updatedTags: OrderTag[]) => {
+    setOrderTagsMap((prev) => ({
+      ...prev,
+      orderTags: updatedTags,
+    }));
+  };
+
+  const handleUpdateNote = (newNote: string, orderId: string) => {
+    if (!orders) return;
+    setOrders((prevOrders) => {
+      const upd = prevOrders.map((order) => {
+        return order.id === orderId ? { ...order, note: newNote } : order;
+      });
+      return upd;
+    });
+  };
+
+  useEffect(() => {
+    if (customerOrders) {
+      setOrders(customerOrders);
+    }
+  }, [customerOrders]);
 
   return (
     <div className="p-6">
@@ -334,8 +364,8 @@ const CustomerOrdersTable: React.FC<CustomerOrdersTableProps> = ({
 
       {/* Mobile View */}
       <div className="md:hidden space-y-4">
-        {customerOrders && customerOrders.length > 0 ? (
-          customerOrders.map((order) => (
+        {orders && orders.length > 0 ? (
+          orders.map((order, index) => (
             <div key={order.id} className="bg-white shadow-md p-4 rounded-lg">
               <p className="text-sm">
                 <strong>ID:</strong> {order.id}
@@ -349,6 +379,30 @@ const CustomerOrdersTable: React.FC<CustomerOrdersTableProps> = ({
               <p className="text-sm">
                 <strong>Created:</strong> {formatDate(order.createdAt)}
               </p>
+
+              {/* Order Tags */}
+              <div className="mt-2">
+                <strong className="text-sm">Tags:</strong>
+                <OrderTags
+                  key={order.orderTags.length}
+                  orderId={order.id}
+                  orderTags={order.orderTags}
+                  onTagsUpdate={handleTagsUpdate}
+                />
+              </div>
+
+              {/* Order Note */}
+              <div className="mt-2">
+                <strong className="text-sm">Note:</strong>
+                <OrderNote
+                  orderId={order.id}
+                  note={order.note}
+                  onUpdateNote={(newNote) =>
+                    handleUpdateNote(newNote, order.id)
+                  }
+                />
+              </div>
+
               <button
                 onClick={() => toggleRow(order.id)}
                 className="text-blue-500 text-sm mt-2"

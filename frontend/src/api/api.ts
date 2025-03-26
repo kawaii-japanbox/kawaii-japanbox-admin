@@ -212,4 +212,14 @@ export const updateOrderNote = async (orderId: string, note: string) => {
   }
 };
 
+export const getPackingOrders = async () => {
+  try {
+    const response = await API.get("/admin/packing/orders");
+    return response.data;
+  } catch (error) {
+    console.error("Error updating order note:", error);
+    throw error;
+  }
+};
+
 export default API;

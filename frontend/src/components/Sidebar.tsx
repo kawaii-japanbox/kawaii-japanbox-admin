@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import {
   BellDot,
@@ -6,12 +5,13 @@ import {
   House,
   LogOut,
   ScanBarcode,
-  Settings,
   ShoppingBasket,
   ShoppingCart,
   User,
+  Package,
 } from "lucide-react";
 import { JSX } from "react";
+import { Link } from "react-router-dom";
 
 const icons: Record<string, JSX.Element> = {
   home: <House />,
@@ -21,6 +21,7 @@ const icons: Record<string, JSX.Element> = {
   notifications: <BellDot />,
   analytics: <ChartNoAxesCombined />,
   products: <ShoppingBasket />,
+  packing_staff: <Package />,
 };
 
 export const rolePermissions: Record<Role, string[]> = {
@@ -32,9 +33,10 @@ export const rolePermissions: Record<Role, string[]> = {
     "notifications",
     "analytics",
     "products",
+    "packing_staff",
   ],
   SALES: ["dashboard", "customers", "orders", "products"],
-  DELIVERY: ["dashboard", "orders"],
+  DELIVERY: ["dashboard", "orders", "packing_staff"],
   SUPER_ADMIN: [
     "dashboard",
     "users",
@@ -43,6 +45,7 @@ export const rolePermissions: Record<Role, string[]> = {
     "notifications",
     "analytics",
     "products",
+    "packing_staff",
   ],
   MERCHANDISER: ["dashboard"],
 };
@@ -61,7 +64,8 @@ export type SidebarKey =
   | "orders"
   | "analytics"
   | "notifications"
-  | "products";
+  | "products"
+  | "packing_staff";
 
 export const sidebarItems: Record<SidebarKey, string> = {
   home: "Home",
@@ -71,6 +75,7 @@ export const sidebarItems: Record<SidebarKey, string> = {
   notifications: "Notifications",
   analytics: "Analytics",
   products: "Products",
+  packing_staff: "Packing Staff",
 };
 
 const Sidebar: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
@@ -117,7 +122,7 @@ const Sidebar: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
         <button
           onClick={() => {
             logout();
-            onClose?.(); // Close sidebar on logout
+            onClose?.();
           }}
           className="flex items-center w-full text-left py-2.5 px-4 rounded hover:bg-red-600 transition"
         >

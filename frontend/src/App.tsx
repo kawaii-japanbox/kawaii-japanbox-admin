@@ -1,18 +1,19 @@
 import React from "react";
 import "./styles/index.css";
-import LoginPage from "./pages/LoginManagement/LoginPage";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Unauthorized from "./pages/LoginManagement/Unauthorized";
+import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./hooks/useAuth";
-import UserDashboardPage from "./pages/UserManagement/UserDashboardPage";
-import OrderDashboardPage from "./pages/OrderManagement/OrderDashboardPage";
 import CustomerDashboardPage from "./pages/CustomerManagement/CustomerDashboardPage";
 import CustomerProfile from "./pages/CustomerManagement/CustomerProfile";
 import Home from "./pages/Home";
-import ProtectedRoute from "./components/ProtectedRoute";
 import ForgotPassword from "./pages/LoginManagement/ForgotPasswordPage";
-import VerificationCodePage from "./pages/LoginManagement/VerificationCodePage";
+import LoginPage from "./pages/LoginManagement/LoginPage";
 import ResetPasswordPage from "./pages/LoginManagement/ResetPasswordPage";
+import Unauthorized from "./pages/LoginManagement/Unauthorized";
+import VerificationCodePage from "./pages/LoginManagement/VerificationCodePage";
+import OrderDashboardPage from "./pages/OrderManagement/OrderDashboardPage";
+import PackingStaffDashboardPage from "./pages/PackingStaffManagement/PackingStaffDashboardPage";
+import UserDashboardPage from "./pages/UserManagement/UserDashboardPage";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 const App: React.FC = () => {
   return (
@@ -47,6 +48,14 @@ const App: React.FC = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/packing_staff"
+            element={
+              <ProtectedRoute page="packing_staff">
+                <PackingStaffDashboardPage />
+              </ProtectedRoute>
+            }
+          ></Route>
           <Route
             path="/customers"
             element={

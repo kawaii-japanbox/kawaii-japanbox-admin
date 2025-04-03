@@ -1,5 +1,6 @@
 import { getPackingOrders } from "../../api/api";
 import Pagination from "../../components/Pagination";
+import PhotoUploadModal from "../../components/PhotoUploadModal";
 import SearchField from "../../components/Search";
 import Spinner from "../../components/Spinner";
 import { formatDate } from "../../utils/helpers";
@@ -18,6 +19,7 @@ const PackingOrdersTable = () => {
   const [error, setError] = useState("");
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState<string>("");
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
 
   const fetchOrders = async () => {
     try {
@@ -128,6 +130,11 @@ const PackingOrdersTable = () => {
           setIsModalOpen={setIsStatusModalOpen}
           orderId={selectedOrderId}
           fetchOrders={fetchOrders}
+        />
+        <PhotoUploadModal
+          isOpen={isUploadModalOpen}
+          setIsModalOpen={setIsUploadModalOpen}
+          orderId={selectedOrderId}
         />
       </div>
     </>

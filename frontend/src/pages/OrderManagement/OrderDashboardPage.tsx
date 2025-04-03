@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
-import Pagination from "../../components/Pagination";
-import StatusModal from "./StatusModal";
-import Layout from "../../components/Layout";
-import { Order } from "./interface";
-import { orderStatuses } from "./data";
 import { getOrders } from "../../api/api";
-import PhotoUploadModal from "./PhotoUploadModal";
-import OrderAnalytics from "./OrderAnalytics";
-import MobileOrderTable from "./MobileOrderTable";
+import Layout from "../../components/Layout";
+import Pagination from "../../components/Pagination";
+import PhotoUploadModal from "../../components/PhotoUploadModal";
 import DesktopOrderTable from "./DesktopOrderTable";
+import MobileOrderTable from "./MobileOrderTable";
+import OrderAnalytics from "./OrderAnalytics";
+import StatusModal from "./StatusModal";
+import { orderStatuses } from "./data";
+import { Order } from "./interface";
+import { useState, useEffect } from "react";
 
 const OrderDashboardPage = () => {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);

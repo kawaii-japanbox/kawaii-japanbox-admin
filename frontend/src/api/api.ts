@@ -224,7 +224,7 @@ export const getPackingOrders = async () => {
 
 export const editOrder = async (orderId: string, status: string) => {
   try {
-    await API.put(`/admin/orders/${orderId}`, { status });
+    await API.patch(`/admin/order/${orderId}`, { status });
   } catch (error) {
     console.error("Error updating order status:", error);
     throw error;

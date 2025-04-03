@@ -10,7 +10,7 @@ import {
 } from "@heroicons/react/24/solid";
 import React, { useEffect, useState } from "react";
 import { useDropzone, FileWithPath } from "react-dropzone";
-import "../../styles/orders.css";
+import "../styles/orders.css";
 
 const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({
   isOpen,

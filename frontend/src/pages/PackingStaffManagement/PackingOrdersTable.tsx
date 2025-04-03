@@ -43,6 +43,11 @@ const PackingOrdersTable = () => {
     setIsStatusModalOpen(true);
   };
 
+  const handleOpenUploadModal = (orderId: string) => {
+    setSelectedOrderId(orderId);
+    setIsUploadModalOpen(true);
+  };
+
   const handlePageChange = async (currentPage: number) => {
     if (page !== currentPage && !loading) {
       setLoading(true);
@@ -101,6 +106,7 @@ const PackingOrdersTable = () => {
                     </button>
                     {/* Upload Icon */}
                     <button
+                      onClick={() => handleOpenUploadModal(order.id)}
                       className="text-green-500 hover:text-green-700"
                       title="Upload Photo"
                     >

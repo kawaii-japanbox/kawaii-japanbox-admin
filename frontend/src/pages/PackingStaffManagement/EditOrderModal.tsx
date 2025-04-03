@@ -1,6 +1,7 @@
 import { OrderStatus, OrderStatusDisplayNames } from "./data";
 import React, { useState } from "react";
 import "../../styles/orders.css";
+import { editOrder } from "../../api/api";
 
 interface EditOrderModalProps {
   isModalOpen: boolean;
@@ -35,6 +36,7 @@ const EditOrderModal: React.FC<EditOrderModalProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      await editOrder(orderId, formState.status);
       await fetchOrders();
     } catch (error) {
       console.log("Error in update order status:", error);

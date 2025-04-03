@@ -1,7 +1,7 @@
 import { getPackingOrders } from "../../api/api";
 import Pagination from "../../components/Pagination";
 import PhotoUploadModal from "../../components/PhotoUploadModal";
-import SearchField from "../../components/Search";
+import SearchField from "../../components/SearchField";
 import Spinner from "../../components/Spinner";
 import { formatDate } from "../../utils/helpers";
 import EditOrderModal from "./EditOrderModal";
@@ -16,6 +16,7 @@ const PackingOrdersTable = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [search, setSearch] = useState("");
   const [error, setError] = useState("");
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState<string>("");
@@ -23,7 +24,7 @@ const PackingOrdersTable = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await getPackingOrders();
+      const response = await getPackingOrders(search);
       setOrders(response.orders);
       setPage(response.page);
       setLimit(response.limit);
@@ -36,7 +37,7 @@ const PackingOrdersTable = () => {
   };
   useEffect(() => {
     fetchOrders();
-  }, [page, limit]);
+  }, [page, limit, searchQuery]);
 
   const openEditModal = (orderId: string) => {
     setSelectedOrderId(orderId);
@@ -57,10 +58,15 @@ const PackingOrdersTable = () => {
     setPage(page);
   };
 
+  const handleSearch = () => {
+    setPage(1);
+    setSearchQuery(search);
+  };
+
   return (
     <>
       <SearchField
-        searchQuery={searchQuery}
+        searchQuery={search}
         setSearchQuery={setSearchQuery}
         setPage={setPage}
       />

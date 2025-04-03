@@ -212,9 +212,13 @@ export const updateOrderNote = async (orderId: string, note: string) => {
   }
 };
 
-export const getPackingOrders = async () => {
+export const getPackingOrders = async (search: string) => {
   try {
-    const response = await API.get("/admin/packing/orders");
+    const response = await API.get("/admin/packing/orders", {
+      params: {
+        search,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error updating order note:", error);

@@ -37,7 +37,7 @@ const PackingOrdersTable = () => {
   };
   useEffect(() => {
     fetchOrders();
-  }, [page, limit, searchQuery]);
+  }, [page, limit, search]);
 
   const openEditModal = (orderId: string) => {
     setSelectedOrderId(orderId);
@@ -67,8 +67,9 @@ const PackingOrdersTable = () => {
     <>
       <SearchField
         searchQuery={search}
-        setSearchQuery={setSearchQuery}
+        setSearchQuery={setSearch}
         setPage={setPage}
+        onSearch={handleSearch}
       />
       <div className="desktop-table-container">
         <table className="desktop-table">

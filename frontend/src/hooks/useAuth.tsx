@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import { login } from "../api/api";
 import { rolePermissions, Role } from "../components/Sidebar";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export type Page =
   | "dashboard"
@@ -73,7 +73,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const response = await login(email, password, rememberMe);
       const decoded = jwtDecode<DecodedToken>(response.accessToken);
       setUser({ userId: decoded.userId, role: decoded.role as Role });
-      console.log(response.accessToken);
       // localStorage.setItem("user", JSON.stringify(response));
       localStorage.setItem("token", response.accessToken);
       navigate("/");

@@ -72,13 +72,11 @@ const PackingOrdersTable = () => {
         setPage={setPage}
         onSearch={handleSearch}
       />
-      <div className="block md:hidden">
-        <MobilePackingOrdersTable
-          orders={orders}
-          handleEditOrder={setSelectedOrderId}
-          handleUploadPhoto={handleOpenUploadModal}
-        />
-      </div>
+      <MobilePackingOrdersTable
+        orders={orders}
+        handleEditOrder={openEditModal}
+        handleUploadPhoto={handleOpenUploadModal}
+      />
       <div className="desktop-table-container">
         <table className="desktop-table">
           <thead className="desktop-table-header">

@@ -8,7 +8,7 @@ import EditOrderModal from "./EditOrderModal";
 import MobilePackingOrdersTable from "./MobileOrdersTable";
 import { PackingOrder } from "./interface";
 import { ArrowUpTrayIcon, PencilIcon } from "@heroicons/react/24/solid";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const PackingOrdersTable = () => {
   const [orders, setOrders] = useState<PackingOrder[] | null>(null);
@@ -40,15 +40,15 @@ const PackingOrdersTable = () => {
     fetchOrders();
   }, [page, limit, search]);
 
-  const openEditModal = (orderId: string) => {
+  const openEditModal = useCallback((orderId: string) => {
     setSelectedOrderId(orderId);
     setIsStatusModalOpen(true);
-  };
+  }, []);
 
-  const handleOpenUploadModal = (orderId: string) => {
+  const handleOpenUploadModal = useCallback((orderId: string) => {
     setSelectedOrderId(orderId);
     setIsUploadModalOpen(true);
-  };
+  }, []);
 
   const handlePageChange = async (currentPage: number) => {
     if (page !== currentPage && !loading) {

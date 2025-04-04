@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 
 interface SearchFieldProps {
   searchQuery: string;
-  setSearchQuery: Dispatch<SetStateAction<string>>;;
+  setSearchQuery: Dispatch<SetStateAction<string>>;
   setPage: Dispatch<SetStateAction<number>>;
   onSearch: () => void;
 }

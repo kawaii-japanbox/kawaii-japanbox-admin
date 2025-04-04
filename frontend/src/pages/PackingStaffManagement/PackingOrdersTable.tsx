@@ -5,6 +5,7 @@ import SearchField from "../../components/SearchField";
 import Spinner from "../../components/Spinner";
 import { formatDate } from "../../utils/helpers";
 import EditOrderModal from "./EditOrderModal";
+import MobilePackingOrdersTable from "./MobileOrdersTable";
 import { PackingOrder } from "./interface";
 import { ArrowUpTrayIcon, PencilIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
@@ -71,6 +72,13 @@ const PackingOrdersTable = () => {
         setPage={setPage}
         onSearch={handleSearch}
       />
+      <div className="block md:hidden">
+        <MobilePackingOrdersTable
+          orders={orders}
+          handleEditOrder={setSelectedOrderId}
+          handleUploadPhoto={handleOpenUploadModal}
+        />
+      </div>
       <div className="desktop-table-container">
         <table className="desktop-table">
           <thead className="desktop-table-header">

@@ -73,7 +73,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const response = await login(email, password, rememberMe);
       const decoded = jwtDecode<DecodedToken>(response.accessToken);
       setUser({ userId: decoded.userId, role: decoded.role as Role });
-      // localStorage.setItem("user", JSON.stringify(response));
       localStorage.setItem("token", response.accessToken);
       navigate("/");
     } catch (error: unknown) {

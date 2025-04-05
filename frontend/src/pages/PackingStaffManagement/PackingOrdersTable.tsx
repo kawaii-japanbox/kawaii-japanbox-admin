@@ -1,4 +1,4 @@
-import { getPackingOrders } from "../../api/api";
+import { editOrder, getPackingOrders } from "../../api/api";
 import Pagination from "../../components/Pagination";
 import PhotoUploadModal from "../../components/PhotoUploadModal";
 import SearchField from "../../components/SearchField";
@@ -16,7 +16,6 @@ const PackingOrdersTable = () => {
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
@@ -40,15 +39,15 @@ const PackingOrdersTable = () => {
     fetchOrders();
   }, [page, limit, search]);
 
-  const openEditModal = useCallback((orderId: string) => {
+  const openEditModal = (orderId: string) => {
     setSelectedOrderId(orderId);
     setIsStatusModalOpen(true);
-  }, []);
+  };
 
-  const handleOpenUploadModal = useCallback((orderId: string) => {
+  const handleOpenUploadModal = (orderId: string) => {
     setSelectedOrderId(orderId);
     setIsUploadModalOpen(true);
-  }, []);
+  };
 
   const handlePageChange = async (currentPage: number) => {
     if (page !== currentPage && !loading) {
@@ -59,23 +58,22 @@ const PackingOrdersTable = () => {
     setPage(page);
   };
 
-  const handleSearch = () => {
-    setPage(1);
-    setSearchQuery(search);
-  };
-
   return (
     <>
-      <SearchField
-        searchQuery={search}
-        setSearchQuery={setSearch}
-        setPage={setPage}
-        onSearch={handleSearch}
-      />
+      <div className="flex items-center gap-4 mb-4">
+        <input
+          type="text"
+          placeholder="Search orders by id or name..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="border p-2 rounded w-1/3"
+        />
+      </div>
       <MobilePackingOrdersTable
         orders={orders}
-        handleEditOrder={openEditModal}
-        handleUploadPhoto={handleOpenUploadModal}
+        loading={false}
+        handleOpenUploadModal={openEditModal}
+        handleStatusModalOpen={handleOpenUploadModal}
       />
       <div className="desktop-table-container">
         <table className="desktop-table">
